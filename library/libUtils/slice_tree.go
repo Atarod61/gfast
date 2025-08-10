@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-// ParentSonSort 有层级关系的数组,父级-》子级 排序
+// ParentSonSort hierarchical arrays, parent->child
 func ParentSonSort(list g.List, params ...interface{}) g.List {
 	args := make([]interface{}, 8)
 	for k, v := range params {
@@ -18,14 +18,14 @@ func ParentSonSort(list g.List, params ...interface{}) g.List {
 		args[k] = v
 	}
 	var (
-		pid       int    //父级id
-		level     int    //层级数
-		fieldName string //父级id键名
-		id        string //id键名
-		levelName string //层级名称
-		title     string //标题名称
-		breaks    int    //中断层级
-		prefixStr string //字符串前缀
+		pid       int    //Parent ID
+		level     int    //Number of levels
+		fieldName string //Parent ID key
+		id        string //ID key
+		levelName string //Level name
+		title     string //Title name
+		breaks    int    //Break level
+		prefixStr string //String prefix
 	)
 	pid = gconv.Int(GetSliceByKey(args, 0, 0))
 	level = gconv.Int(GetSliceByKey(args, 1, 0))
@@ -35,7 +35,7 @@ func ParentSonSort(list g.List, params ...interface{}) g.List {
 	title = gconv.String(GetSliceByKey(args, 5, "title"))
 	breaks = gconv.Int(GetSliceByKey(args, 6, -1))
 	prefixStr = gconv.String(GetSliceByKey(args, 7, "─"))
-	//定义一个新slice用于返回
+	//Define a new slice for return
 	var returnSlice g.List
 	for _, v := range list {
 		if pid == gconv.Int(v[fieldName]) {
@@ -71,7 +71,7 @@ func ParentSonSort(list g.List, params ...interface{}) g.List {
 	return returnSlice
 }
 
-// PushSonToParent 有层级关系的数组 ,将子级压入到父级（树形结构）
+// PushSonToParent Pushes a child array to its parent (tree structure)
 func PushSonToParent(list g.List, params ...interface{}) g.List {
 	args := make([]interface{}, 7)
 	for k, v := range params {
@@ -81,13 +81,13 @@ func PushSonToParent(list g.List, params ...interface{}) g.List {
 		args[k] = v
 	}
 	var (
-		pid         string      //父级id
-		fieldName   string      //父级id键名
-		id          string      //id键名
-		key         string      //子级数组键名
-		filter      string      //过滤键名
-		filterVal   interface{} //过滤的值
-		showNoChild bool        //是否显示不存在的子级健
+		pid         string      //Parent ID
+		fieldName   string      //Parent ID key
+		id          string      //ID key
+		key         string      //Child array key
+		filter      string      //Filter key
+		filterVal   interface{} //Filter value
+		showNoChild bool        //Show non-existent child keys
 	)
 	pid = gconv.String(GetSliceByKey(args, 0, 0))
 	fieldName = gconv.String(GetSliceByKey(args, 1, "pid"))
@@ -121,7 +121,7 @@ func PushSonToParent(list g.List, params ...interface{}) g.List {
 	return returnList
 }
 
-// GetSliceByKey 获取切片里的值 若为nil 可设置默认值val
+// GetSliceByKey gets the value in a slice. If nil, sets a default value val
 func GetSliceByKey(args []interface{}, key int, val interface{}) interface{} {
 	var value interface{}
 	if args[key] != nil {
@@ -132,10 +132,10 @@ func GetSliceByKey(args []interface{}, key int, val interface{}) interface{} {
 	return value
 }
 
-// FindSonByParentId 有层级关系的切片，通过父级id查找所有子级id数组
-// parentId 父级id
-// parentIndex 父级索引名称
-// idIndex id索引名称
+// FindSonByParentId For hierarchical slices, finds an array of all child IDs by parent ID
+// parentId Parent ID
+// parentIndex Parent index name
+// idIndex ID index name
 func FindSonByParentId(list g.List, parentId interface{}, parentIndex, idIndex string) g.List {
 	newList := make(g.List, 0, len(list))
 	for _, v := range list {
@@ -148,7 +148,7 @@ func FindSonByParentId(list g.List, parentId interface{}, parentIndex, idIndex s
 	return newList
 }
 
-// GetTopPidList 获取最顶层 parent Id
+// GetTopPidList gets the top-level parent Id
 func GetTopPidList(list g.List, parentIndex, idIndex string) *garray.Array {
 	arr := garray.NewArray()
 	for _, v1 := range list {
@@ -166,7 +166,7 @@ func GetTopPidList(list g.List, parentIndex, idIndex string) *garray.Array {
 	return arr.Unique()
 }
 
-// FindParentBySonPid 有层级关系的数组，通过子级fid查找所有父级数组
+// FindParentBySonPid In a hierarchical array, find all parent arrays by child ID
 func FindParentBySonPid(list g.List, id int, params ...interface{}) g.List {
 	args := make([]interface{}, 4)
 	for k, v := range params {
@@ -176,10 +176,10 @@ func FindParentBySonPid(list g.List, id int, params ...interface{}) g.List {
 		args[k] = v
 	}
 	var (
-		filter      = gconv.String(GetSliceByKey(args, 0, "filter")) //过滤键名
-		fPid        = gconv.String(GetSliceByKey(args, 1, "pid"))    //父级id字段键名
-		filterValue = GetSliceByKey(args, 2, nil)                    //过滤键值
-		fid         = gconv.String(GetSliceByKey(args, 3, "id"))     //id字段键名
+		filter      = gconv.String(GetSliceByKey(args, 0, "filter")) //Filter key name
+		fPid        = gconv.String(GetSliceByKey(args, 1, "pid"))    //Parent ID field key name
+		filterValue = GetSliceByKey(args, 2, nil)                    //Filter key value
+		fid         = gconv.String(GetSliceByKey(args, 3, "id"))     //ID field key name
 	)
 	rList := make(g.List, 0, len(list))
 	for _, v := range list {
@@ -200,11 +200,11 @@ func FindParentBySonPid(list g.List, id int, params ...interface{}) g.List {
 
 // FindTopParent
 /**
- * 根据id查询最顶层父级信息
- * @param list 有层级关系的数组
- * @param id 查找的id
- * @param string fpid 父级id键名
- * @param string fid 当前id键名
+ * Query the top-level parent information based on the id
+ * param list Array of hierarchical relationships
+ * @param id id to search for
+ * @param string fpid Parent id key
+ * @param string fid Current id key
  * @return g.Map
  */
 func FindTopParent(list g.List, id int64, params ...interface{}) g.Map {
@@ -219,12 +219,12 @@ func FindTopParent(list g.List, id int64, params ...interface{}) g.Map {
 		args[k] = v
 	}
 	var (
-		fPid = gconv.String(GetSliceByKey(args, 0, "pid")) //父级id字段键名
-		fid  = gconv.String(GetSliceByKey(args, 1, "id"))  //id字段键名
+		fPid = gconv.String(GetSliceByKey(args, 0, "pid")) //Parent id field key name
+		fid  = gconv.String(GetSliceByKey(args, 1, "id"))  //ID field key name
 	)
 	hasParent := true
 	top := g.Map{}
-	//找到要查找id值的数组
+	//Find the array to search for the id value
 	for _, v := range list {
 		if gconv.Int64(v[fid]) == gconv.Int64(id) {
 			top = v
@@ -235,7 +235,7 @@ func FindTopParent(list g.List, id int64, params ...interface{}) g.Map {
 		if !hasParent {
 			break
 		}
-		//查询最顶层
+		//Query the top level
 		for _, v := range list {
 			if gconv.Int64(top[fPid]) == gconv.Int64(v[fid]) {
 				top = v

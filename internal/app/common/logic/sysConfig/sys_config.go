@@ -1,6 +1,6 @@
 /*
-* @desc:配置参数管理
-* @company:云南奇讯科技有限公司
+* @desc:Configuration parameter management
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/28 9:13
  */
@@ -34,7 +34,7 @@ func New() *sSysConfig {
 type sSysConfig struct {
 }
 
-// List 系统参数列表
+// List system parameter list
 func (s *sSysConfig) List(ctx context.Context, req *system.ConfigSearchReq) (res *system.ConfigSearchRes, err error) {
 	res = new(system.ConfigSearchRes)
 	err = g.Try(ctx, func(ctx context.Context) {
@@ -54,7 +54,7 @@ func (s *sSysConfig) List(ctx context.Context, req *system.ConfigSearchReq) (res
 			}
 		}
 		res.Total, err = m.Count()
-		liberr.ErrIsNil(ctx, err, "获取数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain data")
 		if req.PageNum == 0 {
 			req.PageNum = 1
 		}
@@ -63,7 +63,7 @@ func (s *sSysConfig) List(ctx context.Context, req *system.ConfigSearchReq) (res
 			req.PageSize = systemConsts.PageSize
 		}
 		err = m.Page(req.PageNum, req.PageSize).Order("config_id asc").Scan(&res.List)
-		liberr.ErrIsNil(ctx, err, "获取数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain data")
 	})
 	return
 }
@@ -80,14 +80,14 @@ func (s *sSysConfig) Add(ctx context.Context, req *system.ConfigAddReq, userId u
 			CreateBy:    userId,
 			Remark:      req.Remark,
 		})
-		liberr.ErrIsNil(ctx, err, "添加系统参数失败")
-		//清除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to add system parameters")
+		//clear cache
 		service.Cache().RemoveByTag(ctx, consts.CacheSysConfigTag)
 	})
 	return
 }
 
-// CheckConfigKeyUnique 验证参数键名是否存在
+// CheckConfigKeyUnique verifies whether the parameter key exists
 func (s *sSysConfig) CheckConfigKeyUnique(ctx context.Context, configKey string, configId ...int64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		data := (*entity.SysConfig)(nil)
@@ -96,25 +96,25 @@ func (s *sSysConfig) CheckConfigKeyUnique(ctx context.Context, configKey string,
 			m = m.Where(dao.SysConfig.Columns().ConfigId+" != ?", configId[0])
 		}
 		err = m.Scan(&data)
-		liberr.ErrIsNil(ctx, err, "校验失败")
+		liberr.ErrIsNil(ctx, err, "Verification failed")
 		if data != nil {
-			liberr.ErrIsNil(ctx, errors.New("参数键名重复"))
+			liberr.ErrIsNil(ctx, errors.New("Parameter key name duplicated"))
 		}
 	})
 	return
 }
 
-// Get 获取系统参数
+// Get system parameters
 func (s *sSysConfig) Get(ctx context.Context, id int) (res *system.ConfigGetRes, err error) {
 	res = new(system.ConfigGetRes)
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = dao.SysConfig.Ctx(ctx).WherePri(id).Scan(&res.Data)
-		liberr.ErrIsNil(ctx, err, "获取系统参数失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get system parameters")
 	})
 	return
 }
 
-// Edit 修改系统参数
+// Edit Modify system parameters
 func (s *sSysConfig) Edit(ctx context.Context, req *system.ConfigEditReq, userId uint64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = s.CheckConfigKeyUnique(ctx, req.ConfigKey, req.ConfigId)
@@ -127,28 +127,28 @@ func (s *sSysConfig) Edit(ctx context.Context, req *system.ConfigEditReq, userId
 			UpdateBy:    userId,
 			Remark:      req.Remark,
 		})
-		liberr.ErrIsNil(ctx, err, "修改系统参数失败")
-		//清除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to modify system parameters")
+		//Clear cache
 		service.Cache().RemoveByTag(ctx, consts.CacheSysConfigTag)
 	})
 	return
 }
 
-// Delete 删除系统参数
+// Delete system parameters
 func (s *sSysConfig) Delete(ctx context.Context, ids []int) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysConfig.Ctx(ctx).Delete(dao.SysConfig.Columns().ConfigId+" in (?)", ids)
-		liberr.ErrIsNil(ctx, err, "删除失败")
-		//清除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to delete")
+		//Clear cache
 		service.Cache().RemoveByTag(ctx, consts.CacheSysConfigTag)
 	})
 	return
 }
 
-// GetConfigByKey 通过key获取参数（从缓存获取）
+// GetConfigByKey gets parameters by key (from cache)
 func (s *sSysConfig) GetConfigByKey(ctx context.Context, key string) (config *entity.SysConfig, err error) {
 	if key == "" {
-		err = gerror.New("参数key不能为空")
+		err = gerror.New("Parameter key cannot be empty")
 		return
 	}
 	cache := service.Cache()
@@ -167,12 +167,12 @@ func (s *sSysConfig) GetConfigByKey(ctx context.Context, key string) (config *en
 	return
 }
 
-// GetByKey 通过key获取参数（从数据库获取）
+// GetByKey Get parameters by key (from the database)
 func (s *sSysConfig) GetByKey(ctx context.Context, key string) (config *entity.SysConfig, err error) {
 	err = dao.SysConfig.Ctx(ctx).Where("config_key", key).Scan(&config)
 	if err != nil {
 		g.Log().Error(ctx, err)
-		err = gerror.New("获取配置失败")
+		err = gerror.New("Failed to obtain configuration")
 	}
 	return
 }

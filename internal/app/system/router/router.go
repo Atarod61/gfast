@@ -1,6 +1,6 @@
 /*
-* @desc:后台路由
-* @company:云南奇讯科技有限公司
+* @desc:Backend Routing
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/2/18 17:34
  */
@@ -22,14 +22,14 @@ type Router struct{}
 func (router *Router) BindController(ctx context.Context, group *ghttp.RouterGroup) {
 	group.Group("/system", func(group *ghttp.RouterGroup) {
 		group.Bind(
-			//登录
+			//Login
 			controller.Login,
 		)
-		//登录验证拦截
+		//Login verification interception
 		service.GfToken().Middleware(group)
-		//context拦截器
+		//context interceptor
 		group.Middleware(service.Middleware().Ctx, service.Middleware().Auth)
-		//后台操作日志记录
+		//Background operation logging
 		group.Hook("/*", ghttp.HookAfterOutput, service.OperateLog().OperationLog)
 		group.Bind(
 			controller.User,
@@ -45,9 +45,9 @@ func (router *Router) BindController(ctx context.Context, group *ghttp.RouterGro
 			controller.OperLog,
 			controller.Personal,
 			controller.UserOnline,
-			controller.Cache, // 缓存处理
+			controller.Cache, // Cache processing
 		)
-		//自动绑定定义的控制器
+		//Auto-bind defined controllers
 		if err := libRouter.RouterAutoBind(ctx, router, group); err != nil {
 			panic(err)
 		}

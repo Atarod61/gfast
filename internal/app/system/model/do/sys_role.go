@@ -13,11 +13,11 @@ import (
 type SysRole struct {
 	g.Meta    `orm:"table:sys_role, do:true"`
 	Id        interface{} //
-	Status    interface{} // 状态;0:禁用;1:正常
-	ListOrder interface{} // 排序
-	Name      interface{} // 角色名称
-	Remark    interface{} // 备注
-	DataScope interface{} // 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
-	CreatedAt *gtime.Time // 创建时间
-	UpdatedAt *gtime.Time // 更新时间
+	Status    interface{} // Status;0:Disabled;1:Normal
+	ListOrder interface{} //  Sorting
+	Name      interface{} // Role name
+	Remark    interface{} // Remark
+	DataScope interface{} // Data scope (1: All data permissions 2: Custom data permissions 3: Department data permissions 4: Department data permissions and below)
+	CreatedAt *gtime.Time // Creation time
+	UpdatedAt *gtime.Time // Update time
 }

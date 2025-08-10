@@ -1,6 +1,6 @@
 /*
-* @desc:错误处理
-* @company:云南奇讯科技有限公司
+* @desc:Error handling
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/2 14:53
  */

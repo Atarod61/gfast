@@ -1,6 +1,6 @@
 /*
 * @desc:token options
-* @company:云南奇讯科技有限公司
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/8 16:02
  */
@@ -14,19 +14,19 @@ import (
 type TokenOptions struct {
 	//  server name
 	ServerName string `json:"serverName"`
-	// 缓存key (每创建一个实例CacheKey必须不相同)
+	// cachekey (theCacheKeymust be unique for each instance)
 	CacheKey string `json:"cacheKey"`
-	// 超时时间 默认10天（秒）
+	// timeout (default 10 days (seconds))
 	Timeout int64 `json:"timeout"`
-	// 缓存刷新时间 默认5天（秒）
-	// 处理携带token的请求时当前时间大于超时时间并小于缓存刷新时间时token将自动刷新即重置token存活时间
-	// MaxRefresh值为0时,token将不会自动刷新
+	// cache refresh time (default 5 days (seconds))
+	// When processing a request with a token, if the current time is greater than the timeout and less than the cache refresh time, the token will automatically refresh, i.e., reset the token lifetime
+	// If the MaxRefresh value is 0, the token will not automatically refresh
 	MaxRefresh int64 `json:"maxRefresh"`
-	// 是否允许多点登录
+	// Allow multiple logins
 	MultiLogin bool `json:"multiLogin"`
-	// Token加密key 32位
+	// Token encryption key (32 bits)
 	EncryptKey []byte `json:"encryptKey"`
-	// 拦截排除地址
+	// Block excluded URLs
 	ExcludePaths g.SliceStr `json:"excludePaths"`
 	CacheModel   string     `json:"cacheModel"`
 }

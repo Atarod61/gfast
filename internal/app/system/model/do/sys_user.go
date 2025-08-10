@@ -13,24 +13,24 @@ import (
 type SysUser struct {
 	g.Meta        `orm:"table:sys_user, do:true"`
 	Id            interface{} //
-	UserName      interface{} // 用户名
-	Mobile        interface{} // 中国手机不带国家代码，国际手机号格式为：国家代码-手机号
-	UserNickname  interface{} // 用户昵称
-	Birthday      interface{} // 生日
-	UserPassword  interface{} // 登录密码;cmf_password加密
-	UserSalt      interface{} // 加密盐
-	UserStatus    interface{} // 用户状态;0:禁用,1:正常,2:未验证
-	UserEmail     interface{} // 用户登录邮箱
-	Sex           interface{} // 性别;0:保密,1:男,2:女
-	Avatar        interface{} // 用户头像
-	DeptId        interface{} // 部门id
-	Remark        interface{} // 备注
-	IsAdmin       interface{} // 是否后台管理员 1 是  0   否
-	Address       interface{} // 联系地址
-	Describe      interface{} // 描述信息
-	LastLoginIp   interface{} // 最后登录ip
-	LastLoginTime *gtime.Time // 最后登录时间
-	CreatedAt     *gtime.Time // 创建时间
-	UpdatedAt     *gtime.Time // 更新时间
-	DeletedAt     *gtime.Time // 删除时间
+	UserName      interface{} // Username
+	Mobile        interface{} // Chinese mobile phone numbers do not have country codes. International mobile phone numbers are formatted as: country code - mobile number
+	UserNickname  interface{} // User nickname
+	Birthday      interface{} // Birthday
+	UserPassword  interface{} // Login password; encrypted with cmf_password
+	UserSalt      interface{} // Encryption salt
+	UserStatus    interface{} //  User status;0:Disabled,1:Normal,2:Unverified
+	UserEmail     interface{} // User login email
+	Sex           interface{} // Gender;0:Confidential,1:Male,2:Female
+	Avatar        interface{} // User avatar
+	DeptId        interface{} // Department ID
+	Remark        interface{} // Remark
+	IsAdmin       interface{} // Is this the administrator? 1: Yes 0: No
+	Address       interface{} // Contact address
+	Describe      interface{} // Description
+	LastLoginIp   interface{} // Last login IP address
+	LastLoginTime *gtime.Time // Last login time
+	CreatedAt     *gtime.Time // Creation time
+	UpdatedAt     *gtime.Time // Update time
+	DeletedAt     *gtime.Time // Delete time
 }

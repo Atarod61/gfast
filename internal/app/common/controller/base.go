@@ -1,6 +1,6 @@
 /*
 * @desc:
-* @company:云南奇讯科技有限公司
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/4 18:19
  */
@@ -14,6 +14,6 @@ import (
 type BaseController struct {
 }
 
-// Init 自动执行的初始化方法
+// Init (automatically executed initialization method)
 func (c *BaseController) Init(r *ghttp.Request) {
 }

@@ -13,11 +13,11 @@ import (
 type SysUserOnline struct {
 	g.Meta     `orm:"table:sys_user_online, do:true"`
 	Id         interface{} //
-	Uuid       interface{} // 用户标识
-	Token      interface{} // 用户token
-	CreateTime *gtime.Time // 登录时间
-	UserName   interface{} // 用户名
-	Ip         interface{} // 登录ip
-	Explorer   interface{} // 浏览器
-	Os         interface{} // 操作系统
+	Uuid       interface{} // User ID
+	Token      interface{} // User token
+	CreateTime *gtime.Time // Login time
+	UserName   interface{} // User name
+	Ip         interface{} // Login IP address
+	Explorer   interface{} // Browser
+	Os         interface{} // Operating system
 }

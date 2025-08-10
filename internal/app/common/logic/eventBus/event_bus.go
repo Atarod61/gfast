@@ -1,5 +1,5 @@
 /**
- * @Company: 云南奇讯科技有限公司
+ * @Company: Yunnan Qixun Technology Co., Ltd
  * @Author: yxf
  * @Description:
  * @Date: 2024/1/25 16:22

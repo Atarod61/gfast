@@ -12,18 +12,18 @@ import (
 // SysOperLog is the golang structure of table sys_oper_log for DAO operations like Where/Data.
 type SysOperLog struct {
 	g.Meta        `orm:"table:sys_oper_log, do:true"`
-	OperId        interface{} // 日志主键
-	Title         interface{} // 模块标题
-	BusinessType  interface{} // 业务类型（0其它 1新增 2修改 3删除）
-	Method        interface{} // 方法名称
-	RequestMethod interface{} // 请求方式
-	OperatorType  interface{} // 操作类别（0其它 1后台用户 2手机端用户）
-	OperName      interface{} // 操作人员
-	DeptName      interface{} // 部门名称
-	OperUrl       interface{} // 请求URL
-	OperIp        interface{} // 主机地址
-	OperLocation  interface{} // 操作地点
-	OperParam     interface{} // 请求参数
-	ErrorMsg      interface{} // 错误消息
-	OperTime      *gtime.Time // 操作时间
+	OperId        interface{} // Log primary key
+	Title         interface{} // Module title
+	BusinessType  interface{} // Business type (0 Other 1 Add 2 Modify 3 Delete)
+	Method        interface{} // Method name
+	RequestMethod interface{} // Request method
+	OperatorType  interface{} // Operation type (0 Other 1 Backend user 2 Mobile user)
+	OperName      interface{} // Operator
+	DeptName      interface{} // Department name
+	OperUrl       interface{} // RequestURL
+	OperIp        interface{} // Host address
+	OperLocation  interface{} // Operation location
+	OperParam     interface{} // Request parameters
+	ErrorMsg      interface{} // Error message
+	OperTime      *gtime.Time // Operation time
 }

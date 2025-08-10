@@ -1,6 +1,6 @@
 /*
-* @desc:验证码获取
-* @company:云南奇讯科技有限公司
+* @desc:Get verification code
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/2 17:45
  */
@@ -18,7 +18,7 @@ var Captcha = captchaController{}
 type captchaController struct {
 }
 
-// Get 获取验证码
+// Get verification code
 func (c *captchaController) Get(ctx context.Context, req *common.CaptchaReq) (res *common.CaptchaRes, err error) {
 	var (
 		idKeyC, base64stringC string

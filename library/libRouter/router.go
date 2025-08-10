@@ -1,6 +1,6 @@
 /*
-* @desc:路由处理
-* @company:云南奇讯科技有限公司
+* @desc:Routing Processing
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/11/16 11:09
  */
@@ -15,14 +15,14 @@ import (
 	"reflect"
 )
 
-// RouterAutoBindBefore 收集需要被绑定的不验证用户登录状态的控制器,自动绑定
-// 路由的方法命名规则必须为：BeforeBindXXXController
+// RouterAutoBindBefore  collects controllers that need to be bound without verifying the user's login status and automatically binds them
+// Routing method naming conventions must be：BeforeBindXXXController
 func RouterAutoBindBefore(ctx context.Context, R interface{}, group *ghttp.RouterGroup) (err error) {
 	return bind(ctx, R, group, "before")
 }
 
-// RouterAutoBind 收集需要被绑定的控制器,自动绑定
-// 路由的方法命名规则必须为：BindXXXController
+// RouterAutoBind collects controllers that need to be bound and automatically binds them
+// The routing method naming rule must be：BindXXXController
 func RouterAutoBind(ctx context.Context, R interface{}, group *ghttp.RouterGroup) (err error) {
 	return bind(ctx, R, group)
 }
@@ -34,9 +34,9 @@ func bind(ctx context.Context, R interface{}, group *ghttp.RouterGroup, option .
 	} else {
 		rule = `^Bind(.+)Controller$`
 	}
-	//TypeOf会返回目标数据的类型，比如int/float/struct/指针等
+	//TypeOf will return the type of the target data, such as int/float/struct/pointer, etc
 	typ := reflect.TypeOf(R)
-	//ValueOf返回目标数据的的值
+	//ValueOf returns the value of the target data
 	val := reflect.ValueOf(R)
 	if val.Elem().Kind() != reflect.Struct {
 		err = gerror.New("expect struct but a " + val.Elem().Kind().String())
@@ -44,7 +44,7 @@ func bind(ctx context.Context, R interface{}, group *ghttp.RouterGroup, option .
 	}
 	for i := 0; i < typ.NumMethod(); i++ {
 		if match := gregex.IsMatchString(rule, typ.Method(i).Name); match {
-			//调用绑定方法
+			//Call binding method
 			val.Method(i).Call([]reflect.Value{reflect.ValueOf(ctx), reflect.ValueOf(group)})
 		}
 	}

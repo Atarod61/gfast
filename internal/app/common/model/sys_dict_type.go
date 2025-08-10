@@ -1,6 +1,6 @@
 /*
-* @desc:字典类型
-* @company:云南奇讯科技有限公司
+* @desc:Dictionary type
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/3/18 11:56
  */
@@ -10,10 +10,10 @@ package model
 import "github.com/gogf/gf/v2/os/gtime"
 
 type SysDictTypeInfoRes struct {
-	DictId    uint64      `orm:"dict_id,primary"  json:"dictId"`    // 字典主键
-	DictName  string      `orm:"dict_name"        json:"dictName"`  // 字典名称
-	DictType  string      `orm:"dict_type,unique" json:"dictType"`  // 字典类型
-	Status    uint        `orm:"status"           json:"status"`    // 状态（0正常 1停用）
-	Remark    string      `orm:"remark"           json:"remark"`    // 备注
-	CreatedAt *gtime.Time `orm:"created_at"       json:"createdAt"` // 创建日期
+	DictId    uint64      `orm:"dict_id,primary"  json:"dictId"`    // Dictionary primary key
+	DictName  string      `orm:"dict_name"        json:"dictName"`  // Dictionary name
+	DictType  string      `orm:"dict_type,unique" json:"dictType"`  // Dictionary type
+	Status    uint        `orm:"status"           json:"status"`    // Status (0Normal  1Disabled)
+	Remark    string      `orm:"remark"           json:"remark"`    // Remarks
+	CreatedAt *gtime.Time `orm:"created_at"       json:"createdAt"` // Creation date
 }

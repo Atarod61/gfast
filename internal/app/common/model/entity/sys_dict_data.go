@@ -10,18 +10,18 @@ import (
 
 // SysDictData is the golang structure for table sys_dict_data.
 type SysDictData struct {
-	DictCode  int64       `json:"dictCode"  description:"字典编码"`
-	DictSort  int         `json:"dictSort"  description:"字典排序"`
-	DictLabel string      `json:"dictLabel" description:"字典标签"`
-	DictValue string      `json:"dictValue" description:"字典键值"`
-	DictType  string      `json:"dictType"  description:"字典类型"`
-	CssClass  string      `json:"cssClass"  description:"样式属性（其他样式扩展）"`
-	ListClass string      `json:"listClass" description:"表格回显样式"`
-	IsDefault int         `json:"isDefault" description:"是否默认（1是 0否）"`
-	Status    int         `json:"status"    description:"状态（0正常 1停用）"`
-	CreateBy  uint64      `json:"createBy"  description:"创建者"`
-	UpdateBy  uint64      `json:"updateBy"  description:"更新者"`
-	Remark    string      `json:"remark"    description:"备注"`
-	CreatedAt *gtime.Time `json:"createdAt" description:"创建时间"`
-	UpdatedAt *gtime.Time `json:"updatedAt" description:"修改时间"`
+	DictCode  int64       `json:"dictCode"  description:"Dictionary encoding"`
+	DictSort  int         `json:"dictSort"  description:"Dictionary sorting"`
+	DictLabel string      `json:"dictLabel" description:"Dictionary label"`
+	DictValue string      `json:"dictValue" description:"Dictionary key value"`
+	DictType  string      `json:"dictType"  description:"Dictionary type"`
+	CssClass  string      `json:"cssClass"  description:"Style attributes（other style extensions）"`
+	ListClass string      `json:"listClass" description:"Table echo style"`
+	IsDefault int         `json:"isDefault" description:"Whether it is default（1is 0is not）"`
+	Status    int         `json:"status"    description:"Status（0normal 1disabled）"`
+	CreateBy  uint64      `json:"createBy"  description:"Creator"`
+	UpdateBy  uint64      `json:"updateBy"  description:"Updater"`
+	Remark    string      `json:"remark"    description:"Remark"`
+	CreatedAt *gtime.Time `json:"createdAt" description:"Creation time"`
+	UpdatedAt *gtime.Time `json:"updatedAt" description:"Modification time"`
 }

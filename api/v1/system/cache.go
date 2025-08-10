@@ -1,6 +1,6 @@
 /*
-* @desc:缓存处理
-* @company:云南奇讯科技有限公司
+* @desc:Cache Processing
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2023/2/1 18:12
  */
@@ -13,7 +13,7 @@ import (
 )
 
 type CacheRemoveReq struct {
-	g.Meta `path:"/cache/remove" tags:"缓存管理" method:"delete" summary:"清除缓存"`
+	g.Meta `path:"/cache/remove" tags:"Cache Management" method:"delete" summary:"Clear Cache"`
 	commonApi.Author
 }
 

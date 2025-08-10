@@ -1,6 +1,6 @@
 /*
-* @desc:版本号
-* @company:云南奇讯科技有限公司
+* @desc:Version number
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/11 11:24
  */
@@ -8,6 +8,6 @@
 package consts
 
 const (
-	Logo    = `CiAgIF9fX19fX19fX19fXyAgICAgICAgICAgX18gCiAgLyBfX19fLyBfX19fL19fXyBfX19fX18vIC9fCiAvIC8gX18vIC9fICAvIF9fIGAvIF9fXy8gX18vCi8gL18vIC8gX18vIC8gL18vIChfXyAgKSAvXyAgClxfX19fL18vICAgIFxfXyxfL19fX18vXF9fLyAg`
+	Logo    = `CgoKICAgIF9fX19fXyAgICAgICAgXyAgICAgCiAgIC8gX19fXy9fX18gXyAgKF8pX19fXwogIC8gL18gIC8gX18gYC8gLyAvIF9fXy8KIC8gX18vIC8gL18vIC8gLyAvIC8gICAgCi9fLyAgICBcX18sXy9fLyAvXy8gICAgIAogICAgICAgICAgIC9fX18vICAgICAgICAKCg==`
 	Version = "3.3.0"
 )

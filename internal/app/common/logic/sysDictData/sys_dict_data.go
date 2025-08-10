@@ -1,6 +1,6 @@
 /*
-* @desc:字典数据管理
-* @company:云南奇讯科技有限公司
+* @desc:Dictionary Data Management
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/28 9:22
  */
@@ -33,20 +33,20 @@ func New() *sSysDictData {
 type sSysDictData struct {
 }
 
-// GetDictWithDataByType 通过字典键类型获取选项
+// GetDictWithDataByType Get options by dictionary key type
 func (s *sSysDictData) GetDictWithDataByType(ctx context.Context, dictType, defaultValue string) (dict *system.GetDictRes,
 	err error) {
 	cache := service.Cache()
 	cacheKey := consts.CacheSysDict + "_" + dictType
-	//从缓存获取
+	//Get from cache
 	iDict := cache.GetOrSetFuncLock(ctx, cacheKey, func(ctx context.Context) (value interface{}, err error) {
 		err = g.Try(ctx, func(ctx context.Context) {
-			//从数据库获取
+			//Get from database
 			dict = &system.GetDictRes{}
-			//获取类型数据
+			//Get type data
 			err = dao.SysDictType.Ctx(ctx).Where(dao.SysDictType.Columns().DictType, dictType).
 				Where(dao.SysDictType.Columns().Status, 1).Fields(model.DictTypeRes{}).Scan(&dict.Info)
-			liberr.ErrIsNil(ctx, err, "获取字典类型失败")
+			liberr.ErrIsNil(ctx, err, "Failed to obtain dictionary type")
 			if dict.Info == nil {
 				return
 			}
@@ -56,7 +56,7 @@ func (s *sSysDictData) GetDictWithDataByType(ctx context.Context, dictType, defa
 				Order(dao.SysDictData.Columns().DictSort + " asc," +
 					dao.SysDictData.Columns().DictCode + " asc").
 				Scan(&dict.Values)
-			liberr.ErrIsNil(ctx, err, "获取字典数据失败")
+			liberr.ErrIsNil(ctx, err, "Failed to obtain dictionary data")
 		})
 		value = dict
 		return
@@ -67,7 +67,7 @@ func (s *sSysDictData) GetDictWithDataByType(ctx context.Context, dictType, defa
 			return
 		}
 	}
-	//设置给定的默认值
+	//Set the given default value
 	for _, v := range dict.Values {
 		if defaultValue != "" {
 			if gstr.Equal(defaultValue, v.DictValue) {
@@ -80,7 +80,7 @@ func (s *sSysDictData) GetDictWithDataByType(ctx context.Context, dictType, defa
 	return
 }
 
-// List 获取字典数据
+// List Get dictionary data
 func (s *sSysDictData) List(ctx context.Context, req *system.DictDataSearchReq) (res *system.DictDataSearchRes, err error) {
 	res = new(system.DictDataSearchRes)
 	err = g.Try(ctx, func(ctx context.Context) {
@@ -96,7 +96,7 @@ func (s *sSysDictData) List(ctx context.Context, req *system.DictDataSearchReq) 
 				m = m.Where(dao.SysDictData.Columns().DictType+" = ?", req.DictType)
 			}
 			res.Total, err = m.Count()
-			liberr.ErrIsNil(ctx, err, "获取字典数据失败")
+			liberr.ErrIsNil(ctx, err, "Failed to obtain dictionary data")
 			if req.PageNum == 0 {
 				req.PageNum = 1
 			}
@@ -107,7 +107,7 @@ func (s *sSysDictData) List(ctx context.Context, req *system.DictDataSearchReq) 
 		}
 		err = m.Page(req.PageNum, req.PageSize).Order(dao.SysDictData.Columns().DictSort + " asc," +
 			dao.SysDictData.Columns().DictCode + " asc").Scan(&res.List)
-		liberr.ErrIsNil(ctx, err, "获取字典数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain dictionary data")
 	})
 	return
 }
@@ -126,24 +126,24 @@ func (s *sSysDictData) Add(ctx context.Context, req *system.DictDataAddReq, user
 			CreateBy:  userId,
 			Remark:    req.Remark,
 		})
-		liberr.ErrIsNil(ctx, err, "添加字典数据失败")
-		//清除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to add dictionary data")
+		//Clear cache
 		service.Cache().RemoveByTag(ctx, consts.CacheSysDictTag)
 	})
 	return
 }
 
-// Get 获取字典数据
+// Get dictionary data
 func (s *sSysDictData) Get(ctx context.Context, dictCode uint) (res *system.DictDataGetRes, err error) {
 	res = new(system.DictDataGetRes)
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = dao.SysDictData.Ctx(ctx).WherePri(dictCode).Scan(&res.Dict)
-		liberr.ErrIsNil(ctx, err, "获取字典数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get dictionary data")
 	})
 	return
 }
 
-// Edit 修改字典数据
+// Edit dictionary data
 func (s *sSysDictData) Edit(ctx context.Context, req *system.DictDataEditReq, userId uint64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysDictData.Ctx(ctx).WherePri(req.DictCode).Update(do.SysDictData{
@@ -158,19 +158,19 @@ func (s *sSysDictData) Edit(ctx context.Context, req *system.DictDataEditReq, us
 			UpdateBy:  userId,
 			Remark:    req.Remark,
 		})
-		liberr.ErrIsNil(ctx, err, "修改字典数据失败")
-		//清除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to modify dictionary data")
+		//Clear cache
 		service.Cache().RemoveByTag(ctx, consts.CacheSysDictTag)
 	})
 	return
 }
 
-// Delete 删除字典数据
+// Delete dictionary data
 func (s *sSysDictData) Delete(ctx context.Context, ids []int) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysDictData.Ctx(ctx).Where(dao.SysDictData.Columns().DictCode+" in(?)", ids).Delete()
-		liberr.ErrIsNil(ctx, err, "删除字典数据失败")
-		//清除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to delete dictionary data")
+		//Clear cache
 		service.Cache().RemoveByTag(ctx, consts.CacheSysDictTag)
 	})
 	return

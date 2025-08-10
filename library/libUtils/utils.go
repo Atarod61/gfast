@@ -1,6 +1,6 @@
 /*
-* @desc:工具
-* @company:云南奇讯科技有限公司
+* @desc:Tools
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/4 22:16
  */
@@ -29,12 +29,12 @@ import (
 	"github.com/tiger1103/gfast/v3/internal/app/common/consts"
 )
 
-// EncryptPassword 密码加密
+// EncryptPassword Password encryption
 func EncryptPassword(password, salt string) string {
 	return gmd5.MustEncryptString(gmd5.MustEncryptString(password) + gmd5.MustEncryptString(salt))
 }
 
-// GetDomain 获取当前请求接口域名
+// GetDomain Get the domain name of the current request interface
 func GetDomain(ctx context.Context) string {
 	r := g.RequestFromCtx(ctx)
 	host := r.Header.Get("X-Forwarded-Host")
@@ -51,17 +51,17 @@ func GetDomain(ctx context.Context) string {
 	return fmt.Sprintf("%s://%s", scheme, host)
 }
 
-// GetClientIp 获取客户端IP
+// GetClientIp gets the client IP
 func GetClientIp(ctx context.Context) string {
 	return g.RequestFromCtx(ctx).GetClientIp()
 }
 
-// GetUserAgent 获取user-agent
+// GetUserAgent getsuser-agent
 func GetUserAgent(ctx context.Context) string {
 	return ghttp.RequestFromCtx(ctx).Header.Get("User-Agent")
 }
 
-// GetLocalIP 服务端ip
+// GetLocalIP serverip
 func GetLocalIP() (ip string, err error) {
 	var addrs []net.Addr
 	addrs, err = net.InterfaceAddrs()
@@ -84,13 +84,13 @@ func GetLocalIP() (ip string, err error) {
 	return
 }
 
-// GetCityByIp 获取ip所属城市
+// GetCityByIp Gets the city to which the IP belongs
 func GetCityByIp(ip string) string {
 	if ip == "" {
 		return ""
 	}
 	if ip == "::1" || ip == "127.0.0.1" {
-		return "内网IP"
+		return "InternalIP"
 	}
 	url := "http://whois.pconline.com.cn/ipJson.jsp?json=true&ip=" + ip
 	bytes := g.Client().GetBytes(context.TODO(), url)
@@ -109,7 +109,7 @@ func GetCityByIp(ip string) string {
 	}
 }
 
-// 写入文件
+// write to file
 func WriteToFile(fileName string, content string) error {
 	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
@@ -121,7 +121,7 @@ func WriteToFile(fileName string, content string) error {
 	return err
 }
 
-// 文件或文件夹是否存在
+// Whether the file or folder exists
 func FileIsExisted(filename string) bool {
 	existed := true
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
@@ -130,7 +130,7 @@ func FileIsExisted(filename string) bool {
 	return existed
 }
 
-// 解析路径获取文件名称及后缀
+// Parse the path to obtain the file name and suffix
 func ParseFilePath(pathStr string) (fileName string, fileType string) {
 	fileNameWithSuffix := path.Base(pathStr)
 	fileType = path.Ext(fileNameWithSuffix)
@@ -138,8 +138,8 @@ func ParseFilePath(pathStr string) (fileName string, fileType string) {
 	return
 }
 
-// IsNotExistMkDir 检查文件夹是否存在
-// 如果不存在则新建文件夹
+// IsNotExistMkDir checks whether a folder exists
+// If not, creates a new folder
 func IsNotExistMkDir(src string) error {
 	if exist := !FileIsExisted(src); exist == false {
 		if err := MkDir(src); err != nil {
@@ -150,7 +150,7 @@ func IsNotExistMkDir(src string) error {
 	return nil
 }
 
-// MkDir 新建文件夹
+// MkDir creates a new folder
 func MkDir(src string) error {
 	err := os.MkdirAll(src, os.ModePerm)
 	if err != nil {
@@ -160,12 +160,12 @@ func MkDir(src string) error {
 	return nil
 }
 
-// 获取文件后缀
+// Get the file suffix
 func GetExt(fileName string) string {
 	return path.Ext(fileName)
 }
 
-// GetType 获取文件类型
+// GetType Get the file type
 func GetType(p string) (result string, err error) {
 	file, err := os.Open(p)
 	if err != nil {
@@ -185,7 +185,7 @@ func GetType(p string) (result string, err error) {
 	return filetype, nil
 }
 
-// GetFilesPath 获取附件相对路径
+// GetFilesPath Get the relative path of the attachment
 func GetFilesPath(ctx context.Context, fileUrl string) (path string, err error) {
 	upType := g.Cfg().MustGet(ctx, "upload.default").Int()
 	if upType != 0 || (upType == 0 && !gstr.ContainsI(fileUrl, consts.UploadPath)) {
@@ -195,7 +195,7 @@ func GetFilesPath(ctx context.Context, fileUrl string) (path string, err error) 
 	pathInfo, err := gurl.ParseURL(fileUrl, 32)
 	if err != nil {
 		g.Log().Error(ctx, err)
-		err = gerror.New("解析附件路径失败")
+		err = gerror.New("Failed to parse attachment path")
 		return
 	}
 	pos := gstr.PosI(pathInfo["path"], consts.UploadPath)
