@@ -1,6 +1,6 @@
 /*
-* @desc:角色管理
-* @company:云南奇讯科技有限公司
+* @desc:Role Management
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/26 15:54
  */
@@ -44,7 +44,7 @@ func (s *sSysRole) GetRoleListSearch(ctx context.Context, req *system.RoleListRe
 			model = model.Where("status", gconv.Int(req.Status))
 		}
 		res.Total, err = model.Count()
-		liberr.ErrIsNil(ctx, err, "获取角色数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get role data")
 		if req.PageNum == 0 {
 			req.PageNum = 1
 		}
@@ -53,15 +53,15 @@ func (s *sSysRole) GetRoleListSearch(ctx context.Context, req *system.RoleListRe
 			req.PageSize = consts.PageSize
 		}
 		err = model.Page(res.CurrentPage, req.PageSize).Order("id asc").Scan(&res.List)
-		liberr.ErrIsNil(ctx, err, "获取数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to retrieve data")
 	})
 	return
 }
 
-// GetRoleList 获取角色列表
+// GetRoleList Get the role list
 func (s *sSysRole) GetRoleList(ctx context.Context) (list []*entity.SysRole, err error) {
 	cache := commonService.Cache()
-	//从缓存获取
+	//Get from cache
 	iList := cache.GetOrSetFuncLock(ctx, consts.CacheSysRole, s.getRoleListFromDb, 0, consts.CacheSysAuthTag)
 	if !iList.IsEmpty() {
 		err = gconv.Struct(iList, &list)
@@ -69,21 +69,21 @@ func (s *sSysRole) GetRoleList(ctx context.Context) (list []*entity.SysRole, err
 	return
 }
 
-// 从数据库获取所有角色
+// Get all roles from the database
 func (s *sSysRole) getRoleListFromDb(ctx context.Context) (value interface{}, err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		var v []*entity.SysRole
-		//从数据库获取
+		//Get from the database
 		err = dao.SysRole.Ctx(ctx).
 			Order(dao.SysRole.Columns().ListOrder + " asc," + dao.SysRole.Columns().Id + " asc").
 			Scan(&v)
-		liberr.ErrIsNil(ctx, err, "获取角色数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to retrieve role data")
 		value = v
 	})
 	return
 }
 
-// AddRoleRule 添加角色权限
+// AddRoleRule to add role permissions
 func (s *sSysRole) AddRoleRule(ctx context.Context, ruleIds []uint, roleId int64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		enforcer, e := commonService.CasbinEnforcer(ctx)
@@ -97,7 +97,7 @@ func (s *sSysRole) AddRoleRule(ctx context.Context, ruleIds []uint, roleId int64
 	return
 }
 
-// DelRoleRule 删除角色权限
+// DelRoleRule deletes role permissions
 func (s *sSysRole) DelRoleRule(ctx context.Context, roleId int64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		enforcer, e := commonService.CasbinEnforcer(ctx)
@@ -112,11 +112,11 @@ func (s *sSysRole) AddRole(ctx context.Context, req *system.RoleAddReq) (err err
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		err = g.Try(ctx, func(ctx context.Context) {
 			roleId, e := dao.SysRole.Ctx(ctx).TX(tx).InsertAndGetId(req)
-			liberr.ErrIsNil(ctx, e, "添加角色失败")
-			//添加角色权限
+			liberr.ErrIsNil(ctx, e, "Failed to add role")
+			//Add role permissions
 			e = s.AddRoleRule(ctx, req.MenuIds, roleId)
 			liberr.ErrIsNil(ctx, e)
-			//清除缓存
+			//clear cache
 			commonService.Cache().Remove(ctx, consts.CacheSysRole)
 		})
 		return err
@@ -127,12 +127,12 @@ func (s *sSysRole) AddRole(ctx context.Context, req *system.RoleAddReq) (err err
 func (s *sSysRole) Get(ctx context.Context, id uint) (res *entity.SysRole, err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = dao.SysRole.Ctx(ctx).WherePri(id).Scan(&res)
-		liberr.ErrIsNil(ctx, err, "获取角色信息失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get role information")
 	})
 	return
 }
 
-// GetFilteredNamedPolicy 获取角色关联的菜单规则
+// GetFilteredNamedPolicy Gets the menu rules associated with the role
 func (s *sSysRole) GetFilteredNamedPolicy(ctx context.Context, id uint) (gpSlice []int, err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		enforcer, e := commonService.CasbinEnforcer(ctx)
@@ -146,7 +146,7 @@ func (s *sSysRole) GetFilteredNamedPolicy(ctx context.Context, id uint) (gpSlice
 	return
 }
 
-// EditRole 修改角色
+// EditRole modify the role
 func (s *sSysRole) EditRole(ctx context.Context, req *system.RoleEditReq) (err error) {
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		err = g.Try(ctx, func(ctx context.Context) {
@@ -156,14 +156,14 @@ func (s *sSysRole) EditRole(ctx context.Context, req *system.RoleEditReq) (err e
 				Name:      req.Name,
 				Remark:    req.Remark,
 			}).Update()
-			liberr.ErrIsNil(ctx, e, "修改角色失败")
-			//删除角色权限
+			liberr.ErrIsNil(ctx, e, "Failed to update role")
+			//Delete role permissions
 			e = s.DelRoleRule(ctx, req.Id)
 			liberr.ErrIsNil(ctx, e)
-			//添加角色权限
+			//Add role permissions
 			e = s.AddRoleRule(ctx, req.MenuIds, req.Id)
 			liberr.ErrIsNil(ctx, e)
-			//清除缓存
+			//Clear cache
 			commonService.Cache().Remove(ctx, consts.CacheSysRole)
 		})
 		return err
@@ -171,18 +171,18 @@ func (s *sSysRole) EditRole(ctx context.Context, req *system.RoleEditReq) (err e
 	return
 }
 
-// DeleteByIds 删除角色
+// DeleteByIds Delete a role
 func (s *sSysRole) DeleteByIds(ctx context.Context, ids []int64) (err error) {
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		err = g.Try(ctx, func(ctx context.Context) {
 			_, err = dao.SysRole.Ctx(ctx).TX(tx).Where(dao.SysRole.Columns().Id+" in(?)", ids).Delete()
-			liberr.ErrIsNil(ctx, err, "删除角色失败")
-			//删除角色权限
+			liberr.ErrIsNil(ctx, err, "Failed to delete role")
+			//Delete role permissions
 			for _, v := range ids {
 				err = s.DelRoleRule(ctx, v)
 				liberr.ErrIsNil(ctx, err)
 			}
-			//清除缓存
+			//clear cache
 			commonService.Cache().Remove(ctx, consts.CacheSysRole)
 		})
 		return err

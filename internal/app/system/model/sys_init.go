@@ -1,6 +1,6 @@
 package model
 
-// 程序初始化yaml配置文件
+// Program initialization YAML configuration file
 type DbInitConfig struct {
 	Database Database `json:"database" yaml:"database"`
 	Redis    Redis    `json:"redis" yaml:"redis"`

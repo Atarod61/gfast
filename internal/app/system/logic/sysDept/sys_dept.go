@@ -1,6 +1,6 @@
 /*
-* @desc:部门管理
-* @company:云南奇讯科技有限公司
+* @desc:Department Management
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/26 15:14
  */
@@ -58,10 +58,10 @@ func (s *sSysDept) GetList(ctx context.Context, req *system.DeptSearchReq) (list
 func (s *sSysDept) GetFromCache(ctx context.Context) (list []*entity.SysDept, err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		cache := commonService.Cache()
-		//从缓存获取
+		//Get from cache
 		iList := cache.GetOrSetFuncLock(ctx, consts.CacheSysDept, func(ctx context.Context) (value interface{}, err error) {
 			err = dao.SysDept.Ctx(ctx).Scan(&list)
-			liberr.ErrIsNil(ctx, err, "获取部门列表失败")
+			liberr.ErrIsNil(ctx, err, "Failed to get department list")
 			value = list
 			return
 		}, 0, consts.CacheSysAuthTag)
@@ -73,7 +73,7 @@ func (s *sSysDept) GetFromCache(ctx context.Context) (list []*entity.SysDept, er
 	return
 }
 
-// Add 添加部门
+// Add add department
 func (s *sSysDept) Add(ctx context.Context, req *system.DeptAddReq) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysDept.Ctx(ctx).Insert(do.SysDept{
@@ -86,14 +86,14 @@ func (s *sSysDept) Add(ctx context.Context, req *system.DeptAddReq) (err error) 
 			Status:    req.Status,
 			CreatedBy: service.Context().GetUserId(ctx),
 		})
-		liberr.ErrIsNil(ctx, err, "添加部门失败")
-		// 删除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to add department")
+		// Delete cache
 		commonService.Cache().Remove(ctx, consts.CacheSysDept)
 	})
 	return
 }
 
-// Edit 部门修改
+// Edit department modification
 func (s *sSysDept) Edit(ctx context.Context, req *system.DeptEditReq) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysDept.Ctx(ctx).WherePri(req.DeptId).Update(do.SysDept{
@@ -106,8 +106,8 @@ func (s *sSysDept) Edit(ctx context.Context, req *system.DeptEditReq) (err error
 			Status:    req.Status,
 			UpdatedBy: service.Context().GetUserId(ctx),
 		})
-		liberr.ErrIsNil(ctx, err, "修改部门失败")
-		// 删除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to modify department")
+		// Delete cache
 		commonService.Cache().Remove(ctx, consts.CacheSysDept)
 	})
 	return
@@ -117,7 +117,7 @@ func (s *sSysDept) Delete(ctx context.Context, id uint64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		var list []*entity.SysDept
 		err = dao.SysDept.Ctx(ctx).Scan(&list)
-		liberr.ErrIsNil(ctx, err, "不存在部门信息")
+		liberr.ErrIsNil(ctx, err, "Department information does not exist")
 		children := s.FindSonByParentId(list, id)
 		ids := make([]uint64, 0, len(list))
 		for _, v := range children {
@@ -125,8 +125,8 @@ func (s *sSysDept) Delete(ctx context.Context, id uint64) (err error) {
 		}
 		ids = append(ids, id)
 		_, err = dao.SysDept.Ctx(ctx).Where(dao.SysDept.Columns().DeptId+" in (?)", ids).Delete()
-		liberr.ErrIsNil(ctx, err, "删除部门失败")
-		// 删除缓存
+		liberr.ErrIsNil(ctx, err, "Failed to delete department")
+		// Delete cache
 		commonService.Cache().Remove(ctx, consts.CacheSysDept)
 	})
 	return
@@ -144,7 +144,7 @@ func (s *sSysDept) FindSonByParentId(deptList []*entity.SysDept, deptId uint64) 
 	return children
 }
 
-// GetListTree 部门树形菜单
+// GetListTree department tree menu
 func (s *sSysDept) GetListTree(pid uint64, list []*entity.SysDept) (deptTree []*model.SysDeptTreeRes) {
 	deptTree = make([]*model.SysDeptTreeRes, 0, len(list))
 	for _, v := range list {
@@ -162,7 +162,7 @@ func (s *sSysDept) GetListTree(pid uint64, list []*entity.SysDept) (deptTree []*
 	return
 }
 
-// GetByDeptId 通过部门id获取部门信息
+// GetByDeptId Gets department information through department id
 func (s *sSysDept) GetByDeptId(ctx context.Context, deptId uint64) (dept *entity.SysDept, err error) {
 	var depts []*entity.SysDept
 	depts, err = s.GetFromCache(ctx)

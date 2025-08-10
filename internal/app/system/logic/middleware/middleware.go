@@ -1,6 +1,6 @@
 /*
-* @desc:中间件
-* @company:云南奇讯科技有限公司
+* @desc:Middleware
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/23 15:05
  */
@@ -29,13 +29,13 @@ func New() *sMiddleware {
 
 type sMiddleware struct{}
 
-// Ctx 自定义上下文对象
+// Ctx custom context object
 func (s *sMiddleware) Ctx(r *ghttp.Request) {
 	ctx := r.GetCtx()
-	// 初始化登录用户信息
+	// Initialize login user information
 	data, err := service.GfToken().ParseToken(r)
 	if err != nil {
-		// 执行下一步请求逻辑
+		// Execute the next request logic
 		r.Middleware.Next()
 	}
 	if data != nil {
@@ -43,19 +43,19 @@ func (s *sMiddleware) Ctx(r *ghttp.Request) {
 		err = gconv.Struct(data.Data, &context.User)
 		if err != nil {
 			g.Log().Error(ctx, err)
-			// 执行下一步请求逻辑
+			// Execute the next request logic
 			r.Middleware.Next()
 		}
 		service.Context().Init(r, context)
 	}
-	// 执行下一步请求逻辑
+	// Execute the next request logic
 	r.Middleware.Next()
 }
 
-// Auth 权限判断处理中间件
+// Auth permission judgment processing middleware
 func (s *sMiddleware) Auth(r *ghttp.Request) {
 	ctx := r.GetCtx()
-	//获取登陆用户id
+	//Get the login user id
 	adminId := service.Context().GetUserId(ctx)
 	accessParams := r.Get("accessParams").Strings()
 	accessParamsStr := ""
@@ -64,9 +64,9 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 	}
 	url := gstr.TrimLeft(r.Request.URL.Path, "/") + accessParamsStr
 	/*if r.Method != "GET" && adminId != 1 && url!="api/v1/system/login" {
-		libResponse.FailJson(true, r, "对不起！演示系统，不能删改数据！")
+		libResponse.FailJson(true, r, "Sorry! This is a demo system, data cannot be deleted or modified!")
 	}*/
-	//获取无需验证权限的用户id
+	//Get the user ID without authentication
 	tagSuperAdmin := false
 	service.SysUser().NotCheckAuthAdminIds(ctx).Iterator(func(v interface{}) bool {
 		if gconv.Uint64(v) == adminId {
@@ -77,14 +77,14 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 	})
 	if tagSuperAdmin {
 		r.Middleware.Next()
-		//不要再往后面执行
+		//Don't execute further
 		return
 	}
-	//获取地址对应的菜单id
+	//Get the menu ID corresponding to the address
 	menuList, err := service.SysAuthRule().GetMenuList(ctx)
 	if err != nil {
 		g.Log().Error(ctx, err)
-		libResponse.FailJson(true, r, "请求数据失败")
+		libResponse.FailJson(true, r, "data request failed")
 	}
 	var menu *model.SysAuthRuleInfoRes
 	for _, m := range menuList {
@@ -94,9 +94,9 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 			break
 		}
 	}
-	//只验证存在数据库中的规则
+	//Only validate rules that exist in the database
 	if menu != nil {
-		//若是不登录能访问的接口则不判断权限
+		//Do not check permissions if the interface is accessible without logging in
 		excludePaths := g.Cfg().MustGet(ctx, "gfToken.excludePaths").Strings()
 		for _, p := range excludePaths {
 			if gstr.Equal(menu.Name, gstr.TrimLeft(p, "/")) {
@@ -104,32 +104,32 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 				return
 			}
 		}
-		//若存在不需要验证的条件则跳过
+		//Skip if a condition doesn't require verification
 		if gstr.Equal(menu.Condition, "nocheck") {
 			r.Middleware.Next()
 			return
 		}
 		menuId := menu.Id
-		//菜单没存数据库不验证权限
+		//Menu not stored in the database, no permissions verified
 		if menuId != 0 {
-			//判断权限操作
+			//Check permissions and perform operations
 			enforcer, err := commonService.CasbinEnforcer(ctx)
 			if err != nil {
 				g.Log().Error(ctx, err)
-				libResponse.FailJson(true, r, "获取权限失败")
+				libResponse.FailJson(true, r, "Failed to get permission")
 			}
 			hasAccess := false
 			hasAccess, err = enforcer.Enforce(fmt.Sprintf("%s%d", service.SysUser().GetCasBinUserPrefix(), adminId), gconv.String(menuId), "All")
 			if err != nil {
 				g.Log().Error(ctx, err)
-				libResponse.FailJson(true, r, "判断权限失败")
+				libResponse.FailJson(true, r, "permission determination failed")
 			}
 			if !hasAccess {
-				libResponse.FailJson(true, r, "没有访问权限")
+				libResponse.FailJson(true, r, "no access permission")
 			}
 		}
 	} else if menu == nil && accessParamsStr != "" {
-		libResponse.FailJson(true, r, "没有访问权限")
+		libResponse.FailJson(true, r, "no access permission")
 	}
 	r.Middleware.Next()
 }

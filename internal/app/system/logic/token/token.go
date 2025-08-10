@@ -1,6 +1,6 @@
 /*
-* @desc:token功能
-* @company:云南奇讯科技有限公司
+* @desc:tokenfunction
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/27 17:01
  */

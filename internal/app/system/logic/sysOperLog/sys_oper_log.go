@@ -1,6 +1,6 @@
 /*
-* @desc:后台操作日志业务处理
-* @company:云南奇讯科技有限公司
+* @desc:Backend Operation Log Processing
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/21 16:14
  */
@@ -40,15 +40,15 @@ func New() *sOperateLog {
 	}
 }
 
-// OperationLog 操作日志写入
+// OperationLog operation log write
 func (s *sOperateLog) OperationLog(r *ghttp.Request) {
 	userInfo := service.Context().GetLoginUser(r.GetCtx())
 	if userInfo == nil {
 		return
 	}
-	url := r.Request.URL //请求地址
-	//获取菜单
-	//获取地址对应的菜单id
+	url := r.Request.URL //Request URL
+	//Get menu
+	//Get the menu ID corresponding to the address
 	menuList, err := service.SysAuthRule().GetMenuList(r.GetCtx())
 	if err != nil {
 		g.Log().Error(r.GetCtx(), err)
@@ -76,12 +76,12 @@ func (s *sOperateLog) OperationLog(r *ghttp.Request) {
 
 func (s *sOperateLog) Invoke(ctx context.Context, data *model.SysOperLogAdd) {
 	s.Pool.Add(ctx, func(ctx context.Context) {
-		//写入日志数据
+		//Write log data
 		s.operationLogAdd(ctx, data)
 	})
 }
 
-// OperationLogAdd 添加操作日志
+// OperationLogAdd Add operation log
 func (s *sOperateLog) operationLogAdd(ctx context.Context, data *model.SysOperLogAdd) {
 	menuTitle := ""
 	if data.Menu != nil {
@@ -135,7 +135,7 @@ func (s *sOperateLog) List(ctx context.Context, req *system.SysOperLogSearchReq)
 			m = m.Where("oper_time >=? AND oper_time <=?", req.DateRange[0], req.DateRange[1])
 		}
 		listRes.Total, err = m.Count()
-		liberr.ErrIsNil(ctx, err, "获取总行数失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain the total number of rows")
 		if req.PageNum == 0 {
 			req.PageNum = 1
 		}
@@ -149,7 +149,7 @@ func (s *sOperateLog) List(ctx context.Context, req *system.SysOperLogSearchReq)
 		}
 		var res []*model.SysOperLogInfoRes
 		err = m.Fields(system.SysOperLogSearchRes{}).Page(req.PageNum, req.PageSize).Order(order).Scan(&res)
-		liberr.ErrIsNil(ctx, err, "获取数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain data")
 		listRes.List = make([]*model.SysOperLogListRes, len(res))
 		for k, v := range res {
 			listRes.List[k] = &model.SysOperLogListRes{
@@ -173,7 +173,7 @@ func (s *sOperateLog) List(ctx context.Context, req *system.SysOperLogSearchReq)
 func (s *sOperateLog) GetByOperId(ctx context.Context, operId uint64) (res *model.SysOperLogInfoRes, err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = dao.SysOperLog.Ctx(ctx).WithAll().Where(dao.SysOperLog.Columns().OperId, operId).Scan(&res)
-		liberr.ErrIsNil(ctx, err, "获取信息失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain information")
 	})
 	return
 }
@@ -181,7 +181,7 @@ func (s *sOperateLog) GetByOperId(ctx context.Context, operId uint64) (res *mode
 func (s *sOperateLog) DeleteByIds(ctx context.Context, ids []uint64) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysOperLog.Ctx(ctx).Delete("oper_id in (?)", ids)
-		liberr.ErrIsNil(ctx, err, "删除失败")
+		liberr.ErrIsNil(ctx, err, "Failed to delete")
 	})
 	return
 }
@@ -189,7 +189,7 @@ func (s *sOperateLog) DeleteByIds(ctx context.Context, ids []uint64) (err error)
 func (s *sOperateLog) ClearLog(ctx context.Context) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = g.DB().Ctx(ctx).Exec(ctx, "truncate "+dao.SysOperLog.Table())
-		liberr.ErrIsNil(ctx, err, "清除失败")
+		liberr.ErrIsNil(ctx, err, "Clear failed")
 	})
 	return
 }

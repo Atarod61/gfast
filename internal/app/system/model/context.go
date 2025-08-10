@@ -1,6 +1,6 @@
 /*
 * @desc:context-model
-* @company:云南奇讯科技有限公司
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/16 14:45
  */

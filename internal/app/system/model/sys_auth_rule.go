@@ -1,6 +1,6 @@
 /*
-* @desc:菜单model
-* @company:云南奇讯科技有限公司
+* @desc:Menumodel
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/3/11 14:53
  */
@@ -9,26 +9,26 @@ package model
 
 type SysAuthRuleInfoRes struct {
 	Id        uint   `orm:"id,primary"  json:"id"`        //
-	Pid       uint   `orm:"pid"         json:"pid"`       // 父ID
-	Name      string `orm:"name,unique" json:"name"`      // 规则名称
-	Title     string `orm:"title"       json:"title"`     // 规则名称
-	Icon      string `orm:"icon"        json:"icon"`      // 图标
-	Condition string `orm:"condition"   json:"condition"` // 条件
-	Remark    string `orm:"remark"      json:"remark"`    // 备注
-	MenuType  uint   `orm:"menu_type"   json:"menuType"`  // 类型 0目录 1菜单 2按钮
-	Weigh     int    `orm:"weigh"       json:"weigh"`     // 权重
-	IsHide    uint   `orm:"is_hide" json:"isHide"`        // 显示状态
-	IsCached  uint   `orm:"is_cached"  json:"isCached"`   // 是否缓存
-	IsAffix   uint   `orm:"is_affix" json:"isAffix"`      //是否固定
-	Path      string `orm:"path"        json:"path"`      // 路由地址
-	Redirect  string `orm:"redirect"   json:"redirect"`   // 跳转路由
-	Component string `orm:"component"   json:"component"` // 组件路径
-	IsIframe  uint   `orm:"is_iframe"    json:"isIframe"` // 是否iframe
-	IsLink    uint   `orm:"is_link" json:"isLink"`        // 是否外链 1是 0否
-	LinkUrl   string `orm:"link_url" json:"linkUrl"`      //链接地址
+	Pid       uint   `orm:"pid"         json:"pid"`       // Parent ID
+	Name      string `orm:"name,unique" json:"name"`      // Rule name
+	Title     string `orm:"title"       json:"title"`     // Rule name
+	Icon      string `orm:"icon"        json:"icon"`      // Icon
+	Condition string `orm:"condition"   json:"condition"` // Condition
+	Remark    string `orm:"remark"      json:"remark"`    // Remark
+	MenuType  uint   `orm:"menu_type"   json:"menuType"`  // Type 0Directory 1Menu 2Button
+	Weigh     int    `orm:"weigh"       json:"weigh"`     // Weight
+	IsHide    uint   `orm:"is_hide" json:"isHide"`        // Display status
+	IsCached  uint   `orm:"is_cached"  json:"isCached"`   // Cached or not
+	IsAffix   uint   `orm:"is_affix" json:"isAffix"`      //Fixed or not
+	Path      string `orm:"path"        json:"path"`      // Route address
+	Redirect  string `orm:"redirect"   json:"redirect"`   // Redirect route
+	Component string `orm:"component"   json:"component"` // Component path
+	IsIframe  uint   `orm:"is_iframe"    json:"isIframe"` // Iframe or not
+	IsLink    uint   `orm:"is_link" json:"isLink"`        // Is this an external link? 1 for yes, 0 for no
+	LinkUrl   string `orm:"link_url" json:"linkUrl"`      //Link URL
 }
 
-// SysAuthRuleTreeRes 菜单树形结构
+// SysAuthRuleTreeRes menu tree structure
 type SysAuthRuleTreeRes struct {
 	*SysAuthRuleInfoRes
 	Children []*SysAuthRuleTreeRes `json:"children"`

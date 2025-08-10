@@ -1,6 +1,6 @@
 /*
 * @desc:context-service
-* @company:云南奇讯科技有限公司
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/23 14:51
  */
@@ -25,12 +25,12 @@ func New() *sContext {
 	return &sContext{}
 }
 
-// Init 初始化上下文对象指针到上下文对象中，以便后续的请求流程中可以修改。
+// Init initializes the context object pointer to the context object so that it can be modified in subsequent request processes。
 func (s *sContext) Init(r *ghttp.Request, customCtx *model.Context) {
 	r.SetCtxVar(consts.CtxKey, customCtx)
 }
 
-// Get 获得上下文变量，如果没有设置，那么返回nil
+// Get context variables. Returns nil if not set
 func (s *sContext) Get(ctx context.Context) *model.Context {
 	value := ctx.Value(consts.CtxKey)
 	if value == nil {
@@ -42,12 +42,12 @@ func (s *sContext) Get(ctx context.Context) *model.Context {
 	return nil
 }
 
-// SetUser 将上下文信息设置到上下文请求中，注意是完整覆盖
+// SetUser Sets context information to the context request. Note that this completely overwrites the context
 func (s *sContext) SetUser(ctx context.Context, ctxUser *model.ContextUser) {
 	s.Get(ctx).User = ctxUser
 }
 
-// GetLoginUser 获取当前登陆用户信息
+// GetLoginUser Get the currently logged-in user information
 func (s *sContext) GetLoginUser(ctx context.Context) *model.ContextUser {
 	context := s.Get(ctx)
 	if context == nil {
@@ -56,7 +56,7 @@ func (s *sContext) GetLoginUser(ctx context.Context) *model.ContextUser {
 	return context.User
 }
 
-// GetUserId 获取当前登录用户id
+// GetUserId Get the currently logged-in user id
 func (s *sContext) GetUserId(ctx context.Context) uint64 {
 	user := s.GetLoginUser(ctx)
 	if user != nil {

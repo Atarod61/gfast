@@ -10,14 +10,14 @@ import (
 
 // SysLoginLog is the golang structure for table sys_login_log.
 type SysLoginLog struct {
-	InfoId        int64       `json:"infoId"        description:"访问ID"`
-	LoginName     string      `json:"loginName"     description:"登录账号"`
-	Ipaddr        string      `json:"ipaddr"        description:"登录IP地址"`
-	LoginLocation string      `json:"loginLocation" description:"登录地点"`
-	Browser       string      `json:"browser"       description:"浏览器类型"`
-	Os            string      `json:"os"            description:"操作系统"`
-	Status        int         `json:"status"        description:"登录状态（0成功 1失败）"`
-	Msg           string      `json:"msg"           description:"提示消息"`
-	LoginTime     *gtime.Time `json:"loginTime"     description:"登录时间"`
-	Module        string      `json:"module"        description:"登录模块"`
+	InfoId        int64       `json:"infoId"        description:"AccessID"`
+	LoginName     string      `json:"loginName"     description:"Login account"`
+	Ipaddr        string      `json:"ipaddr"        description:"LoginIPaddress"`
+	LoginLocation string      `json:"loginLocation" description:"Login location"`
+	Browser       string      `json:"browser"       description:"Browser type"`
+	Os            string      `json:"os"            description:"Operating system"`
+	Status        int         `json:"status"        description:"Login status（0success 1failure）"`
+	Msg           string      `json:"msg"           description:"Prompt message"`
+	LoginTime     *gtime.Time `json:"loginTime"     description:"Login time"`
+	Module        string      `json:"module"        description:"Login module"`
 }

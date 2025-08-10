@@ -1,6 +1,6 @@
 /*
-* @desc:xxxx功能描述
-* @company:云南奇讯科技有限公司
+* @desc:xxxxFunction Description
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/12/8 17:48
  */
@@ -28,9 +28,9 @@ func scanPath(t *testing.T) {
 		err          error
 		packageNames []string
 	)
-	//logic路径
+	//logicpath
 	path := strings.Join([]string{"D:/goProject/p2022/gfast-v3/internal/app/demo/logic"}, "")
-	//获取该路径下所有需要加载的包
+	//Get all packages to be loaded under this path
 	packages, err = gfile.ScanDirFunc(path, "*", false, func(p string) string {
 		if gfile.IsDir(p) {
 			return p

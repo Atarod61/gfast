@@ -1,6 +1,6 @@
 /*
-* @desc:登录日志
-* @company:云南奇讯科技有限公司
+* @desc:Login Log
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/26 15:20
  */
@@ -38,7 +38,7 @@ func (s *sSysLoginLog) Invoke(ctx context.Context, data *model.LoginLogParams) {
 	s.Pool.Add(
 		ctx,
 		func(ctx context.Context) {
-			//写入日志数据
+			//Write log data
 			service.SysUser().LoginLog(ctx, data)
 		},
 	)
@@ -79,9 +79,9 @@ func (s *sSysLoginLog) List(ctx context.Context, req *system.LoginLogSearchReq) 
 	}
 	err = g.Try(ctx, func(ctx context.Context) {
 		res.Total, err = m.Count()
-		liberr.ErrIsNil(ctx, err, "获取日志失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get log")
 		err = m.Page(req.PageNum, req.PageSize).Order(order).Scan(&res.List)
-		liberr.ErrIsNil(ctx, err, "获取日志数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get log data")
 	})
 	return
 }
@@ -89,7 +89,7 @@ func (s *sSysLoginLog) List(ctx context.Context, req *system.LoginLogSearchReq) 
 func (s *sSysLoginLog) DeleteLoginLogByIds(ctx context.Context, ids []int) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysLoginLog.Ctx(ctx).Delete("info_id in (?)", ids)
-		liberr.ErrIsNil(ctx, err, "删除失败")
+		liberr.ErrIsNil(ctx, err, "Failed to delete")
 	})
 	return
 }
@@ -97,7 +97,7 @@ func (s *sSysLoginLog) DeleteLoginLogByIds(ctx context.Context, ids []int) (err 
 func (s *sSysLoginLog) ClearLoginLog(ctx context.Context) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = g.DB().Ctx(ctx).Exec(ctx, "truncate "+dao.SysLoginLog.Table())
-		liberr.ErrIsNil(ctx, err, "清除失败")
+		liberr.ErrIsNil(ctx, err, "Clear failed")
 	})
 	return
 }

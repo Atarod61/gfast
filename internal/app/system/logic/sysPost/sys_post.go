@@ -1,6 +1,6 @@
 /*
-* @desc:岗位管理
-* @company:云南奇讯科技有限公司
+* @desc:Position Management
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/9/26 15:28
  */
@@ -31,7 +31,7 @@ func New() *sSysPost {
 type sSysPost struct {
 }
 
-// List 岗位列表
+// List job list
 func (s *sSysPost) List(ctx context.Context, req *system.PostSearchReq) (res *system.PostSearchRes, err error) {
 	res = new(system.PostSearchRes)
 	err = g.Try(ctx, func(ctx context.Context) {
@@ -48,7 +48,7 @@ func (s *sSysPost) List(ctx context.Context, req *system.PostSearchReq) (res *sy
 			}
 		}
 		res.Total, err = m.Count()
-		liberr.ErrIsNil(ctx, err, "获取岗位失败")
+		liberr.ErrIsNil(ctx, err, "Failed to get job positions")
 		if req.PageNum == 0 {
 			req.PageNum = 1
 		}
@@ -57,7 +57,7 @@ func (s *sSysPost) List(ctx context.Context, req *system.PostSearchReq) (res *sy
 		}
 		res.CurrentPage = req.PageNum
 		err = m.Page(req.PageNum, req.PageSize).Order("post_sort asc,post_id asc").Scan(&res.PostList)
-		liberr.ErrIsNil(ctx, err, "获取岗位失败")
+		liberr.ErrIsNil(ctx, err, "Failed to retrieve job positions")
 	})
 	return
 }
@@ -72,7 +72,7 @@ func (s *sSysPost) Add(ctx context.Context, req *system.PostAddReq) (err error) 
 			Remark:    req.Remark,
 			CreatedBy: service.Context().GetUserId(ctx),
 		})
-		liberr.ErrIsNil(ctx, err, "添加岗位失败")
+		liberr.ErrIsNil(ctx, err, "Failed to add job position")
 	})
 	return
 }
@@ -87,7 +87,7 @@ func (s *sSysPost) Edit(ctx context.Context, req *system.PostEditReq) (err error
 			Remark:    req.Remark,
 			UpdatedBy: service.Context().GetUserId(ctx),
 		})
-		liberr.ErrIsNil(ctx, err, "修改岗位失败")
+		liberr.ErrIsNil(ctx, err, "Failed to update position")
 	})
 	return
 }
@@ -95,17 +95,17 @@ func (s *sSysPost) Edit(ctx context.Context, req *system.PostEditReq) (err error
 func (s *sSysPost) Delete(ctx context.Context, ids []int) (err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		_, err = dao.SysPost.Ctx(ctx).Where(dao.SysPost.Columns().PostId+" in(?)", ids).Delete()
-		liberr.ErrIsNil(ctx, err, "删除失败")
+		liberr.ErrIsNil(ctx, err, "Failed to delete")
 	})
 	return
 }
 
-// GetUsedPost 获取正常状态的岗位
+// GetUsedPost gets the normal status post
 func (s *sSysPost) GetUsedPost(ctx context.Context) (list []*entity.SysPost, err error) {
 	err = g.Try(ctx, func(ctx context.Context) {
 		err = dao.SysPost.Ctx(ctx).Where(dao.SysPost.Columns().Status, 1).
 			Order(dao.SysPost.Columns().PostSort + " ASC, " + dao.SysPost.Columns().PostId + " ASC ").Scan(&list)
-		liberr.ErrIsNil(ctx, err, "获取岗位数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to retrieve position data")
 	})
 	return
 }

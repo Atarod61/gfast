@@ -1,6 +1,6 @@
 /*
-* @desc:用户在线状态处理
-* @company:云南奇讯科技有限公司
+* @desc:User online status processing
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2023/1/10 14:50
  */
@@ -41,12 +41,12 @@ type sSysUserOnline struct {
 
 func (s *sSysUserOnline) Invoke(ctx context.Context, params *model.SysUserOnlineParams) {
 	s.Pool.Add(ctx, func(ctx context.Context) {
-		//写入数据
+		//Write data
 		s.SaveOnline(ctx, params)
 	})
 }
 
-// SaveOnline 保存用户在线状态
+// SaveOnline saves user online status
 func (s *sSysUserOnline) SaveOnline(ctx context.Context, params *model.SysUserOnlineParams) {
 	err := g.Try(ctx, func(ctx context.Context) {
 		ua := user_agent.New(params.UserAgent)
@@ -65,18 +65,18 @@ func (s *sSysUserOnline) SaveOnline(ctx context.Context, params *model.SysUserOn
 			}
 		)
 
-		//查询是否已存在当前用户
+		//Query whether the current user already exists
 		err := dao.SysUserOnline.Ctx(ctx).Fields(dao.SysUserOnline.Columns().Id).
 			Where(dao.SysUserOnline.Columns().Token, data.Token).
 			Scan(&info)
 		liberr.ErrIsNil(ctx, err)
-		//若已存在则更新
+		//Update if it already exists
 		if info != nil {
 			_, err = dao.SysUserOnline.Ctx(ctx).
 				Where(dao.SysUserOnline.Columns().Id, info.Id).
 				FieldsEx(dao.SysUserOnline.Columns().Id).Update(data)
 			liberr.ErrIsNil(ctx, err)
-		} else { //否则新增
+		} else { //Otherwise, add
 			_, err = dao.SysUserOnline.Ctx(ctx).
 				FieldsEx(dao.SysUserOnline.Columns().Id).Insert(data)
 			liberr.ErrIsNil(ctx, err)
@@ -87,7 +87,7 @@ func (s *sSysUserOnline) SaveOnline(ctx context.Context, params *model.SysUserOn
 	}
 }
 
-// CheckUserOnline 检查在线用户
+// CheckUserOnline Check online users
 func (s *sSysUserOnline) CheckUserOnline(ctx context.Context) {
 	param := &system.SysUserOnlineSearchReq{
 		PageReq: common.PageReq{
@@ -123,7 +123,7 @@ func (s *sSysUserOnline) CheckUserOnline(ctx context.Context) {
 	}
 }
 
-// GetOnlineListPage 搜素在线用户列表
+// GetOnlineListPage searches the online user list
 func (s *sSysUserOnline) GetOnlineListPage(ctx context.Context, req *system.SysUserOnlineSearchReq, hasToken ...bool) (res *system.SysUserOnlineSearchRes, err error) {
 	if req.PageNum == 0 {
 		req.PageNum = 1
@@ -141,12 +141,12 @@ func (s *sSysUserOnline) GetOnlineListPage(ctx context.Context, req *system.SysU
 	res = new(system.SysUserOnlineSearchRes)
 	err = g.Try(ctx, func(ctx context.Context) {
 		res.Total, err = model.Count()
-		liberr.ErrIsNil(ctx, err, "获取总行数失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain the total number of rows")
 		if len(hasToken) == 0 || !hasToken[0] {
 			model = model.FieldsEx("token")
 		}
 		err = model.Page(req.PageNum, req.PageSize).Order("create_time DESC").Scan(&res.List)
-		liberr.ErrIsNil(ctx, err, "获取数据失败")
+		liberr.ErrIsNil(ctx, err, "Failed to obtain data")
 	})
 	return
 }

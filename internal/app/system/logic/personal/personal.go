@@ -1,6 +1,6 @@
 /*
-* @desc:xxxx功能描述
-* @company:云南奇讯科技有限公司
+* @desc:xxxxFunctional Description
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/11/3 9:55
  */
@@ -72,7 +72,7 @@ func (s *sPersonal) EditPersonal(ctx context.Context, req *system.PersonalEditRe
 				Describe:     req.Describe,
 				Avatar:       req.Avatar,
 			})
-			liberr.ErrIsNil(ctx, err, "修改用户信息失败")
+			liberr.ErrIsNil(ctx, err, "Failed to modify user information")
 			user, err = service.SysUser().GetUserById(ctx, userId)
 			liberr.ErrIsNil(ctx, err)
 		})
@@ -90,7 +90,7 @@ func (s *sPersonal) ResetPwdPersonal(ctx context.Context, req *system.PersonalRe
 			dao.SysUser.Columns().UserSalt:     salt,
 			dao.SysUser.Columns().UserPassword: password,
 		})
-		liberr.ErrIsNil(ctx, err, "重置用户密码失败")
+		liberr.ErrIsNil(ctx, err, "Resetuser password failed")
 	})
 	return
 }

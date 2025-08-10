@@ -1,6 +1,6 @@
 /*
-* @desc:部门model
-* @company:云南奇讯科技有限公司
+* @desc:Departmentmodel
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/4/11 9:07
  */

@@ -1,6 +1,6 @@
 /*
-* @desc:定时任务
-* @company:云南奇讯科技有限公司
+* @desc:Scheduled Task
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2023/1/13 17:47
  */
