@@ -1,6 +1,6 @@
 /*
-* @desc:操作日志
-* @company:云南奇讯科技有限公司
+* @desc:Operation Log
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/12/21 14:37
  */
@@ -13,53 +13,54 @@ import (
 	"github.com/tiger1103/gfast/v3/internal/app/system/model"
 )
 
-// SysOperLogSearchReq 分页请求参数
+// SysOperLogSearchReq pagination request parameters
 type SysOperLogSearchReq struct {
-	g.Meta        `path:"/operLog/list" tags:"操作日志" method:"get" summary:"操作日志列表"`
-	Title         string `p:"title"`         //系统模块
-	RequestMethod string `p:"requestMethod"` //请求方式
-	OperName      string `p:"operName"`      //操作人员
+	g.Meta        `path:"/operLog/list" tags:"Operation Log" method:"get" summary:"Operation Log List"`
+	Title         string `p:"title"`         //System module
+	RequestMethod string `p:"requestMethod"` //Request method
+	OperName      string `p:"operName"`      //Operator
 	commonApi.PageReq
 	commonApi.Author
 }
 
-// SysOperLogSearchRes 列表返回结果
+// SysOperLogSearchRes returns a list of results
 type SysOperLogSearchRes struct {
 	g.Meta `mime:"application/json"`
 	commonApi.ListRes
 	List []*model.SysOperLogListRes `json:"list"`
 }
 
-// SysOperLogGetReq 获取一条数据请求
+// SysOperLogGetReq gets a data request
 type SysOperLogGetReq struct {
-	g.Meta `path:"/operLog/get" tags:"操作日志" method:"get" summary:"获取操作日志信息"`
+	g.Meta `path:"/operLog/get" tags:"Operation Log" method:"get" summary:"Get operation log details"`
 	commonApi.Author
-	OperId uint64 `p:"operId" v:"required#主键必须"` //通过主键获取
+	OperId uint64 `p:"operId" v:"required#Primary key is required"` //Get by primary key
 }
 
-// SysOperLogGetRes 获取一条数据结果
+// SysOperLogGetRes retrieves a data result
 type SysOperLogGetRes struct {
 	g.Meta `mime:"application/json"`
 	*model.SysOperLogInfoRes
 }
 
-// SysOperLogDeleteReq 删除数据请求
+// SysOperLogDeleteReq deletes data request
 type SysOperLogDeleteReq struct {
-	g.Meta `path:"/operLog/delete" tags:"操作日志" method:"delete" summary:"删除操作日志"`
+	g.Meta `path:"/operLog/delete" tags:"Operation Log" method:"delete" summary:"Delete operation log"`
 	commonApi.Author
-	OperIds []uint64 `p:"operIds" v:"required#主键必须"` //通过主键删除
+	OperIds []uint64 `p:"operIds" v:"required#Primary key is required"` //Delete by primary key
 }
 
-// SysOperLogDeleteRes 删除数据返回
+// SysOperLogDeleteRes deletes data and returns a result
 type SysOperLogDeleteRes struct {
 	commonApi.EmptyRes
 }
 
 type SysOperLogClearReq struct {
-	g.Meta `path:"/operLog/clear" tags:"操作日志" method:"delete" summary:"清除日志"`
+	g.Meta `path:"/operLog/clear" tags:"Operation Log" method:"delete" summary:"Clear logs"`
 	commonApi.Author
 }
 
 type SysOperLogClearRes struct {
 	commonApi.EmptyRes
 }
+

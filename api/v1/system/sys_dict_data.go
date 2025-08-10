@@ -1,6 +1,6 @@
 /*
-* @desc:字典数据api
-* @company:云南奇讯科技有限公司
+* @desc:Dictionary Dataapi
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/3/18 11:59
  */
@@ -14,31 +14,31 @@ import (
 	commonEntity "github.com/tiger1103/gfast/v3/internal/app/common/model/entity"
 )
 
-// GetDictReq 获取字典信息请求参数
+// GetDictReq Get dictionary information request parameters
 type GetDictReq struct {
-	g.Meta `path:"/dict/data/getDictData" tags:"字典管理" method:"get" summary:"获取字典数据公共方法"`
+	g.Meta `path:"/dict/data/getDictData" tags:"Dictionary Management" method:"get" summary:"Get dictionary data (public)"`
 	commonApi.Author
-	DictType     string `p:"dictType" v:"required#字典类型不能为空"`
+	DictType     string `p:"dictType" v:"required#Dictionary type cannot be empty"`
 	DefaultValue string `p:"defaultValue"`
 }
 
-// GetDictRes 完整的一个字典信息
+// GetDictRes complete dictionary information
 type GetDictRes struct {
 	g.Meta `mime:"application/json"`
 	Info   *commonModel.DictTypeRes   `json:"info"`
 	Values []*commonModel.DictDataRes `json:"values"`
 }
 
-// DictDataSearchReq 分页请求参数
+// DictDataSearchReq paging request parameters
 type DictDataSearchReq struct {
-	g.Meta    `path:"/dict/data/list" tags:"字典管理" method:"get" summary:"字典数据列表"`
-	DictType  string `p:"dictType"`  //字典类型
-	DictLabel string `p:"dictLabel"` //字典标签
-	Status    string `p:"status"`    //状态
+	g.Meta    `path:"/dict/data/list" tags:"Dictionary Management" method:"get" summary:"Dictionary Data List"`
+	DictType  string `p:"dictType"`  //Dictionary type
+	DictLabel string `p:"dictLabel"` //Dictionary label
+	Status    string `p:"status"`    //Status
 	commonApi.PageReq
 }
 
-// DictDataSearchRes 字典数据结果
+// DictDataSearchRes dictionary data result
 type DictDataSearchRes struct {
 	g.Meta `mime:"application/json"`
 	List   []*commonEntity.SysDictData `json:"list"`
@@ -46,19 +46,19 @@ type DictDataSearchRes struct {
 }
 
 type DictDataReq struct {
-	DictLabel string `p:"dictLabel"  v:"required#字典标签不能为空"`
-	DictValue string `p:"dictValue"  v:"required#字典键值不能为空"`
-	DictType  string `p:"dictType"  v:"required#字典类型不能为空"`
-	DictSort  int    `p:"dictSort"  v:"integer#排序只能为整数"`
+	DictLabel string `p:"dictLabel"  v:"required#Dictionary label cannot be empty"`
+	DictValue string `p:"dictValue"  v:"required#Dictionary key value cannot be empty"`
+	DictType  string `p:"dictType"  v:"required#Dictionary type cannot be empty"`
+	DictSort  int    `p:"dictSort"  v:"integer#Sort value must be integer"`
 	CssClass  string `p:"cssClass"`
 	ListClass string `p:"listClass"`
-	IsDefault int    `p:"isDefault" v:"required|in:0,1#系统默认不能为空|默认值只能为0或1"`
-	Status    int    `p:"status"    v:"required|in:0,1#状态不能为空|状态只能为0或1"`
+	IsDefault int    `p:"isDefault" v:"required|in:0,1#System default cannot be empty|Default value must be 0 or 1"`
+	Status    int    `p:"status"    v:"required|in:0,1#Status cannot be empty|Status must be 0 or 1"`
 	Remark    string `p:"remark"`
 }
 
 type DictDataAddReq struct {
-	g.Meta `path:"/dict/data/add" tags:"字典管理" method:"post" summary:"添加字典数据"`
+	g.Meta `path:"/dict/data/add" tags:"Dictionary Management" method:"post" summary:"Add Dictionary Data"`
 	*DictDataReq
 }
 
@@ -66,7 +66,7 @@ type DictDataAddRes struct {
 }
 
 type DictDataGetReq struct {
-	g.Meta   `path:"/dict/data/get" tags:"字典管理" method:"get" summary:"获取字典数据"`
+	g.Meta   `path:"/dict/data/get" tags:"Dictionary Management" method:"get" summary:"Get Dictionary Data"`
 	DictCode uint `p:"dictCode"`
 }
 
@@ -76,8 +76,8 @@ type DictDataGetRes struct {
 }
 
 type DictDataEditReq struct {
-	g.Meta   `path:"/dict/data/edit" tags:"字典管理" method:"put" summary:"修改字典数据"`
-	DictCode int `p:"dictCode" v:"required|min:1#主键ID不能为空|主键ID不能小于1"`
+	g.Meta   `path:"/dict/data/edit" tags:"Dictionary Management" method:"put" summary:"Edit Dictionary Data"`
+	DictCode int `p:"dictCode" v:"required|min:1#Primary key ID cannot be empty|Primary key ID cannot be less than 1"`
 	*DictDataReq
 }
 
@@ -85,7 +85,7 @@ type DictDataEditRes struct {
 }
 
 type DictDataDeleteReq struct {
-	g.Meta `path:"/dict/data/delete" tags:"字典管理" method:"delete" summary:"删除字典数据"`
+	g.Meta `path:"/dict/data/delete" tags:"Dictionary Management" method:"delete" summary:"Delete Dictionary Data"`
 	Ids    []int `p:"ids"`
 }
 

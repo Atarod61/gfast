@@ -8,7 +8,7 @@ import (
 )
 
 type UserMenusReq struct {
-	g.Meta `path:"/user/getUserMenus" tags:"用户管理" method:"get" summary:"获取用户菜单"`
+	g.Meta `path:"/user/getUserMenus" tags:"User Management" method:"get" summary:"Get user menus"`
 	commonApi.Author
 }
 
@@ -18,10 +18,10 @@ type UserMenusRes struct {
 	Permissions []string           `json:"permissions"`
 }
 
-// UserSearchReq 用户搜索请求参数
+// UserSearchReq user search request parameters
 type UserSearchReq struct {
-	g.Meta   `path:"/user/list" tags:"用户管理" method:"get" summary:"用户列表"`
-	DeptId   string `p:"deptId"` //部门id
+	g.Meta   `path:"/user/list" tags:"User Management" method:"get" summary:"User list"`
+	DeptId   string `p:"deptId"` //Departmentid
 	Mobile   string `p:"mobile"`
 	Status   string `p:"status"`
 	KeyWords string `p:"keyWords"`
@@ -36,7 +36,7 @@ type UserSearchRes struct {
 }
 
 type UserGetParamsReq struct {
-	g.Meta `path:"/user/params" tags:"用户管理" method:"get" summary:"用户维护参数获取"`
+	g.Meta `path:"/user/params" tags:"User Management" method:"get" summary:"Get user maintenance parameters"`
 }
 
 type UserGetParamsRes struct {
@@ -45,44 +45,44 @@ type UserGetParamsRes struct {
 	Posts    []*entity.SysPost `json:"posts"`
 }
 
-// SetUserReq 添加修改用户公用请求字段
+// SetUserReq adds and modifies common user request fields
 type SetUserReq struct {
-	DeptId   uint64  `p:"deptId" v:"required#用户部门不能为空"` //所属部门
-	Email    string  `p:"email" v:"email#邮箱格式错误"`       //邮箱
-	NickName string  `p:"nickName" v:"required#用户昵称不能为空"`
-	Mobile   string  `p:"mobile" v:"required|phone#手机号不能为空|手机号格式错误"`
+	DeptId   uint64  `p:"deptId" v:"required#Department cannot be empty"` //Department
+	Email    string  `p:"email" v:"email#Invalid email format"`       //Email address
+	NickName string  `p:"nickName" v:"required#Nickname cannot be empty"`
+	Mobile   string  `p:"mobile" v:"required|phone#Mobile cannot be empty|Invalid mobile format"`
 	PostIds  []int64 `p:"postIds"`
 	Remark   string  `p:"remark"`
 	RoleIds  []int64 `p:"roleIds"`
 	Sex      int     `p:"sex"`
 	Status   uint    `p:"status"`
-	IsAdmin  int     `p:"isAdmin"` // 是否后台管理员 1 是  0   否
+	IsAdmin  int     `p:"isAdmin"` // Whether the background administrator 1 Yes  0   No
 }
 
-// UserAddReq 添加用户参数
+// UserAddReq adds user parameters
 type UserAddReq struct {
-	g.Meta `path:"/user/add" tags:"用户管理" method:"post" summary:"添加用户"`
+	g.Meta `path:"/user/add" tags:"User Management" method:"post" summary:"Add user"`
 	*SetUserReq
-	UserName string `p:"userName" v:"required#用户账号不能为空"`
-	Password string `p:"password" v:"required|password#密码不能为空|密码以字母开头，只能包含字母、数字和下划线，长度在6~18之间"`
+	UserName string `p:"userName" v:"required#Username cannot be empty"`
+	Password string `p:"password" v:"required|password#Password cannot be empty|Password must start with a letter，only contain letters、numbers and underscores，and must be 6~18 characters long"`
 	UserSalt string
 }
 
 type UserAddRes struct {
 }
 
-// UserEditReq 修改用户参数
+// UserEditReq Modify user parameters
 type UserEditReq struct {
-	g.Meta `path:"/user/edit" tags:"用户管理" method:"put" summary:"修改用户"`
+	g.Meta `path:"/user/edit" tags:"User Management" method:"put" summary:"Edit user"`
 	*SetUserReq
-	UserId int64 `p:"userId" v:"required#用户id不能为空"`
+	UserId int64 `p:"userId" v:"required#User ID is required"`
 }
 
 type UserEditRes struct {
 }
 
 type UserGetEditReq struct {
-	g.Meta `path:"/user/getEdit" tags:"用户管理" method:"get" summary:"获取用户信息"`
+	g.Meta `path:"/user/getEdit" tags:"User Management" method:"get" summary:"Get user details"`
 	Id     uint64 `p:"id"`
 }
 
@@ -93,38 +93,38 @@ type UserGetEditRes struct {
 	CheckedPosts   []int64         `json:"checkedPosts"`
 }
 
-// UserResetPwdReq 重置用户密码状态参数
+// UserResetPwdReq resets user password status parameters
 type UserResetPwdReq struct {
-	g.Meta   `path:"/user/resetPwd" tags:"用户管理" method:"put" summary:"重置用户密码"`
-	Id       uint64 `p:"userId" v:"required#用户id不能为空"`
-	Password string `p:"password" v:"required|password#密码不能为空|密码以字母开头，只能包含字母、数字和下划线，长度在6~18之间"`
+	g.Meta   `path:"/user/resetPwd" tags:"User Management" method:"put" summary:"Reset user password"`
+	Id       uint64 `p:"userId" v:"required#User ID is required"`
+	Password string `p:"password" v:"required|password#Password required|Password must start with a letter，can only contain letters、numbers and underscores，and must be 6~18 characters long"`
 }
 
 type UserResetPwdRes struct {
 }
 
-// UserStatusReq 设置用户状态参数
+// UserStatusReq sets user status parameters
 type UserStatusReq struct {
-	g.Meta     `path:"/user/setStatus" tags:"用户管理" method:"put" summary:"设置用户状态"`
-	Id         uint64 `p:"userId" v:"required#用户id不能为空"`
-	UserStatus uint   `p:"status" v:"required#用户状态不能为空"`
+	g.Meta     `path:"/user/setStatus" tags:"User Management" method:"put" summary:"Set user status"`
+	Id         uint64 `p:"userId" v:"required#User ID is required"`
+	UserStatus uint   `p:"status" v:"required#User status is required"`
 }
 
 type UserStatusRes struct {
 }
 
 type UserDeleteReq struct {
-	g.Meta `path:"/user/delete" tags:"用户管理" method:"delete" summary:"删除用户"`
-	Ids    []int `p:"ids"  v:"required#ids不能为空"`
+	g.Meta `path:"/user/delete" tags:"User Management" method:"delete" summary:"Delete user"`
+	Ids    []int `p:"ids"  v:"required#ids are required"`
 }
 
 type UserDeleteRes struct {
 }
 
 type UserGetByIdsReq struct {
-	g.Meta `path:"/user/getUsers" tags:"用户管理" method:"get" summary:"同时获取多个用户"`
+	g.Meta `path:"/user/getUsers" tags:"User Management" method:"get" summary:"Get multiple users"`
 	commonApi.Author
-	Ids []int `p:"ids" v:"required#ids不能为空"`
+	Ids []int `p:"ids" v:"required#ids are required"`
 }
 
 type UserGetByIdsRes struct {

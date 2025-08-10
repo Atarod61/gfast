@@ -1,6 +1,6 @@
 /*
-* @desc:登录
-* @company:云南奇讯科技有限公司
+* @desc:Login
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/4/27 21:51
  */
@@ -14,10 +14,10 @@ import (
 )
 
 type UserLoginReq struct {
-	g.Meta     `path:"/login" tags:"登录" method:"post" summary:"用户登录"`
-	Username   string `p:"username" v:"required#用户名不能为空"`
-	Password   string `p:"password" v:"required#密码不能为空"`
-	VerifyCode string `p:"verifyCode" v:"required#验证码不能为空"`
+	g.Meta     `path:"/login" tags:"Authentication" method:"post" summary:"User Login"`
+	Username   string `p:"username" v:"required#Username cannot be empty"`
+	Password   string `p:"password" v:"required#Password cannot be empty"`
+	VerifyCode string `p:"verifyCode" v:"required#Verification code cannot be empty"`
 	VerifyKey  string `p:"verifyKey"`
 }
 
@@ -30,7 +30,7 @@ type UserLoginRes struct {
 }
 
 type UserLoginOutReq struct {
-	g.Meta `path:"/logout" tags:"登录" method:"get" summary:"退出登录"`
+	g.Meta `path:"/logout" tags:"Authentication" method:"get" summary:"User Logout"`
 	commonApi.Author
 }
 

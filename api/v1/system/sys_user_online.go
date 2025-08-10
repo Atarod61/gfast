@@ -1,6 +1,6 @@
 /*
-* @desc:在线用户
-* @company:云南奇讯科技有限公司
+* @desc:Online User
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2023/1/10 16:57
  */
@@ -13,16 +13,16 @@ import (
 	"github.com/tiger1103/gfast/v3/internal/app/system/model/entity"
 )
 
-// SysUserOnlineSearchReq 列表搜索参数
+// SysUserOnlineSearchReq list search parameters
 type SysUserOnlineSearchReq struct {
-	g.Meta   `path:"/online/list" tags:"在线用户管理" method:"get" summary:"列表"`
+	g.Meta   `path:"/online/list" tags:"Online User Management" method:"get" summary:"List"`
 	Username string `p:"userName"`
 	Ip       string `p:"ipaddr"`
 	commonApi.PageReq
 	commonApi.Author
 }
 
-// SysUserOnlineSearchRes 列表结果
+// SysUserOnlineSearchRes list results
 type SysUserOnlineSearchRes struct {
 	g.Meta `mime:"application/json"`
 	commonApi.ListRes
@@ -30,9 +30,9 @@ type SysUserOnlineSearchRes struct {
 }
 
 type SysUserOnlineForceLogoutReq struct {
-	g.Meta `path:"/online/forceLogout" tags:"在线用户管理" method:"delete" summary:"强制用户退出登录"`
+	g.Meta `path:"/online/forceLogout" tags:"Online User Management" method:"delete" summary:"Force User Logout"`
 	commonApi.Author
-	Ids []int `p:"ids" v:"required#ids不能为空"`
+	Ids []int `p:"ids" v:"required#ids cannot be empty"`
 }
 
 type SysUserOnlineForceLogoutRes struct {

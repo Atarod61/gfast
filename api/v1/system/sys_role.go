@@ -1,6 +1,6 @@
 /*
-* @desc:角色api
-* @company:云南奇讯科技有限公司
+* @desc:Roleapi
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu<yxh669@qq.com>
 * @Date:   2022/3/30 9:16
  */
@@ -15,9 +15,9 @@ import (
 )
 
 type RoleListReq struct {
-	g.Meta   `path:"/role/list" tags:"角色管理" method:"get" summary:"角色列表"`
-	RoleName string `p:"roleName"`   //参数名称
-	Status   string `p:"roleStatus"` //状态
+	g.Meta   `path:"/role/list" tags:"Role Management" method:"get" summary:"Role List"`
+	RoleName string `p:"roleName"`   //Parameter name
+	Status   string `p:"roleStatus"` //Status
 	commonApi.PageReq
 }
 
@@ -28,7 +28,7 @@ type RoleListRes struct {
 }
 
 type RoleGetParamsReq struct {
-	g.Meta `path:"/role/getParams" tags:"角色管理" method:"get" summary:"角色编辑参数"`
+	g.Meta `path:"/role/getParams" tags:"Role Management" method:"get" summary:"Role Edit Parameters"`
 }
 
 type RoleGetParamsRes struct {
@@ -37,8 +37,8 @@ type RoleGetParamsRes struct {
 }
 
 type RoleAddReq struct {
-	g.Meta    `path:"/role/add" tags:"角色管理" method:"post" summary:"添加角色"`
-	Name      string `p:"name" v:"required#角色名称不能为空"`
+	g.Meta    `path:"/role/add" tags:"Role Management" method:"post" summary:"Add Role"`
+	Name      string `p:"name" v:"required#Role name cannot be empty"`
 	Status    uint   `p:"status"    `
 	ListOrder uint   `p:"listOrder" `
 	Remark    string `p:"remark"    `
@@ -49,8 +49,8 @@ type RoleAddRes struct {
 }
 
 type RoleGetReq struct {
-	g.Meta `path:"/role/get" tags:"角色管理" method:"get" summary:"获取角色信息"`
-	Id     uint `p:"id" v:"required#角色id不能为空"`
+	g.Meta `path:"/role/get" tags:"Role Management" method:"get" summary:"Get role information"`
+	Id     uint `p:"id" v:"required#Role ID cannot be empty"`
 }
 
 type RoleGetRes struct {
@@ -60,9 +60,9 @@ type RoleGetRes struct {
 }
 
 type RoleEditReq struct {
-	g.Meta    `path:"/role/edit" tags:"角色管理" method:"put" summary:"修改角色"`
-	Id        int64  `p:"id" v:"required#角色id必须"`
-	Name      string `p:"name" v:"required#角色名称不能为空"`
+	g.Meta    `path:"/role/edit" tags:"Role Management" method:"put" summary:"Edit role"`
+	Id        int64  `p:"id" v:"required#Role ID is required"`
+	Name      string `p:"name" v:"required#Role name cannot be empty"`
 	Status    uint   `p:"status"    `
 	ListOrder uint   `p:"listOrder" `
 	Remark    string `p:"remark"    `
@@ -73,8 +73,8 @@ type RoleEditRes struct {
 }
 
 type RoleDeleteReq struct {
-	g.Meta `path:"/role/delete" tags:"角色管理" method:"delete" summary:"删除角色"`
-	Ids    []int64 `p:"ids" v:"required#角色id不能为空"`
+	g.Meta `path:"/role/delete" tags:"Role Management" method:"delete" summary:"Delete role"`
+	Ids    []int64 `p:"ids" v:"required#Role ID cannot be empty"`
 }
 
 type RoleDeleteRes struct {

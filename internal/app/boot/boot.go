@@ -9,5 +9,8 @@ package boot
 
 import (
 	_ "github.com/tiger1103/gfast/v3/internal/app/common/logic"
+	_ "github.com/tiger1103/gfast/v3/internal/app/demo/logic"
+	_ "github.com/tiger1103/gfast/v3/internal/app/demo16/logic"
+	_ "github.com/tiger1103/gfast/v3/internal/app/research/logic"
 	_ "github.com/tiger1103/gfast/v3/internal/app/system/logic"
 )
