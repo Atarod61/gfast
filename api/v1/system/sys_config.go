@@ -1,6 +1,6 @@
 /*
-* @desc:系统参数配置
-* @company:云南奇讯科技有限公司
+* @desc:System parameter configuration
+* @company:Yunnan Qixun Technology Co., Ltd
 * @Author: yixiaohu
 * @Date:   2022/4/18 21:11
  */
@@ -14,10 +14,10 @@ import (
 )
 
 type ConfigSearchReq struct {
-	g.Meta     `path:"/config/list" tags:"系统参数管理" method:"get" summary:"系统参数列表"`
-	ConfigName string `p:"configName"` //参数名称
-	ConfigKey  string `p:"configKey"`  //参数键名
-	ConfigType string `p:"configType"` //状态
+	g.Meta     `path:"/config/list" tags:"System Configuration Management" method:"get" summary:"System Configuration List"`
+	ConfigName string `p:"configName"` //Parameter name
+	ConfigKey  string `p:"configKey"`  //Parameter key name
+	ConfigType string `p:"configType"` //Status
 	commonApi.PageReq
 }
 
@@ -28,15 +28,15 @@ type ConfigSearchRes struct {
 }
 
 type ConfigReq struct {
-	ConfigName  string `p:"configName"  v:"required#参数名称不能为空"`
-	ConfigKey   string `p:"configKey"  v:"required#参数键名不能为空"`
-	ConfigValue string `p:"configValue"  v:"required#参数键值不能为空"`
-	ConfigType  int    `p:"configType"    v:"required|in:0,1#系统内置不能为空|系统内置类型只能为0或1"`
+	ConfigName  string `p:"configName"  v:"required#Parameter name cannot be empty"`
+	ConfigKey   string `p:"configKey"  v:"required#Parameter key cannot be empty"`
+	ConfigValue string `p:"configValue"  v:"required#Parameter value cannot be empty"`
+	ConfigType  int    `p:"configType"    v:"required|in:0,1#System built-in flag is required|System built-in type must be 0 or 1"`
 	Remark      string `p:"remark"`
 }
 
 type ConfigAddReq struct {
-	g.Meta `path:"/config/add" tags:"系统参数管理" method:"post" summary:"添加系统参数"`
+	g.Meta `path:"/config/add" tags:"System Configuration Management" method:"post" summary:"Add System Configuration"`
 	*ConfigReq
 }
 
@@ -44,7 +44,7 @@ type ConfigAddRes struct {
 }
 
 type ConfigGetReq struct {
-	g.Meta `path:"/config/get" tags:"系统参数管理" method:"get" summary:"获取系统参数"`
+	g.Meta `path:"/config/get" tags:"System Configuration Management" method:"get" summary:"Get System Configuration"`
 	Id     int `p:"id"`
 }
 
@@ -54,8 +54,8 @@ type ConfigGetRes struct {
 }
 
 type ConfigEditReq struct {
-	g.Meta   `path:"/config/edit" tags:"系统参数管理" method:"put" summary:"修改系统参数"`
-	ConfigId int64 `p:"configId" v:"required|min:1#主键ID不能为空|主键ID参数错误"`
+	g.Meta   `path:"/config/edit" tags:"System Configuration Management" method:"put" summary:"Edit System Configuration"`
+	ConfigId int64 `p:"configId" v:"required|min:1#Primary key ID cannot be empty|Invalid primary key ID parameter"`
 	*ConfigReq
 }
 
@@ -63,7 +63,7 @@ type ConfigEditRes struct {
 }
 
 type ConfigDeleteReq struct {
-	g.Meta `path:"/config/delete" tags:"系统参数管理" method:"delete" summary:"删除系统参数"`
+	g.Meta `path:"/config/delete" tags:"System Configuration Management" method:"delete" summary:"Delete System Configuration"`
 	Ids    []int `p:"ids"`
 }
 
